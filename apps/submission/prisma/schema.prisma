@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Submission {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  problemId       String
+  userId          String
+  code            String
+  language        String 
+  createdAt       DateTime  @default(now())
+  status          Status    @default(Pending)
+}
+
+enum Status {
+  Pending
+  Success
+  RE
+  TLE
+  MLE
+  WA
+}
