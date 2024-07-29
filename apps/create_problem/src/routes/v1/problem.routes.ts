@@ -52,6 +52,38 @@ problemRouter.get("/", async (_req: Request, res: Response, next: NextFunction) 
     }
 })
 
+problemRouter.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        
+        const id = req.params.id;
+
+        const problem = await db.problem.findFirst({
+            where: {
+                id: id,
+            }
+        });
+
+        if(!problem){
+            throw new ApiError(`Problem not found with id=${id}`, StatusCodes.NOT_FOUND);
+        }
+
+        await db.problem.delete({
+            where: {
+                id: id,
+            }
+        })
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            message: "Successfully delete a problem",
+            data: {},
+            error: {}
+        })
+    }catch(error: any){
+        next(error);
+    }
+})
+
 export {
     problemRouter,
 }
