@@ -16,8 +16,10 @@
     "@types/express": "^4.17.21"
   },
   "dependencies": {
+    "@prisma/client": "^5.17.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "http-status-codes": "^2.3.0"
+    "http-status-codes": "^2.3.0",
+    "prisma": "^5.17.0"
   }
 }
