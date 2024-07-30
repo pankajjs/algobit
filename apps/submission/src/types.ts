@@ -1,3 +1,5 @@
+import z from "zod";
+
 export type JobPayload = {
     code: string,
     language: string,
@@ -14,3 +16,12 @@ export class ApiError extends Error {
         this.details = details;
     }
 }
+
+export const Submission = z.object({
+    userId: z.string(),
+    problemId: z.string(),
+    code: z.string(),
+    language: z.string(),
+}).strict();
+
+export type Submission = z.infer<typeof Submission>; 
