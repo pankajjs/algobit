@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import StatusCodes from "http-status-codes";
-import { db } from "../../db";
-import { ApiError, CreateProblem, UpdateProblem } from "../../types";
-import { sanitizedMarkdown } from "../../utils";
+import { db } from "../../helper/db";
+import { ApiError, CreateProblem, UpdateProblem } from "../../helper/types";
+import { sanitizedMarkdown } from "../../helper/sanitize_markdown";
 
 const problemRouter = Router();
 

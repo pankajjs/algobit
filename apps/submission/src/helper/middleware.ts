@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ApiError } from "./types";
 import { StatusCodes } from "http-status-codes";
-import { ServerConfig } from "./config/server_config";
+import { ServerConfig } from "../config/server_config";
 
 export const errorHandler = (error: Error, req: FastifyRequest, res: FastifyReply) => {
     if(error instanceof ApiError){

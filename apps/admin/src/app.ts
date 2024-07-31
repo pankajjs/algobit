@@ -1,5 +1,5 @@
 import express, { urlencoded } from "express";
-import { errorHandler } from "./middleware";
+import { errorHandler } from "./helper/middleware";
 import { StatusCodes } from "http-status-codes";
 import { apiRouter } from "./routes";
 
@@ -11,7 +11,7 @@ app.use(urlencoded({extended : true}));
 app.use("/api", apiRouter);
 
 app.get("/healthcheck", (_req, res) => {
-    return res.status(StatusCodes.OK).send("Create Problem service is alive.");
+    return res.status(StatusCodes.OK).send("Admin service is alive.");
 })
 
 app.use(errorHandler);

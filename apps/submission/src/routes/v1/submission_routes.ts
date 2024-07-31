@@ -1,10 +1,10 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import { ApiError, Submission } from "../../types";
+import { ApiError, Submission } from "../../helper/types";
 import { StatusCodes } from "http-status-codes";
-import { db } from "../../db";
-import { publishJob } from "../../publisher/publisher";
-import { SUBMISSION_JOB_NAME } from "../../constants";
-import { submissionQueue } from "../../queue/submission_queue";
+import { db } from "../../helper/db";
+import { publishJob } from "../../helper/publisher";
+import { SUBMISSION_REQUEST_JOB } from "../../helper/constants";
+import { submissionRequestQueue } from "../../queue/submission_request";
 
 async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPluginOptions){
     fastify.get("/ping", async function (_req, res){
@@ -38,14 +38,14 @@ async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPlugin
             });
 
             await publishJob({
-                name: SUBMISSION_JOB_NAME,
+                name: SUBMISSION_REQUEST_JOB,
                 payload: {
                     submissionId: submission.id,
                     code: submission.code,
                     language: submission.language, 
                     problemId: submission.problemId,
                 },
-                queue: submissionQueue,
+                queue: submissionRequestQueue,
             })
             
             return res.status(StatusCodes.CREATED).send({
