@@ -3,7 +3,8 @@ import z from "zod";
 export type JobPayload = {
     code: string,
     language: string,
-    problemId: string
+    problemId: string,
+    submissionId: string,
 }
 
 export class ApiError extends Error {
