@@ -7,6 +7,11 @@ export type JobPayload = {
     submissionId: string,
 }
 
+export type ResponseJobPayload = {
+    submissionId: string,
+    status: string
+}
+
 export class ApiError extends Error {
     statusCode: number;
     details?: unknown;
