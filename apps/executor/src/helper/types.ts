@@ -6,7 +6,7 @@ export interface ExecutorResponse {
     expectedOutput?: string
 }
 
-export type JobPayload = {
+export type RequestJobPayload = {
     code: string,
     language: string,
     problemId: string,
