@@ -13,6 +13,11 @@ export type JobPayload = {
     submissionId: string
 }
 
+export type ResponseJobPayload = {
+    submissionId: string,
+    status: string
+}
+
 export type OutputStream = {
     stderr: string,
     stdout: string,
