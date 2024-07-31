@@ -1,9 +1,9 @@
 import { Queue } from "bullmq";
-import { JobPayload } from "./types";
+import { ResponseJobPayload } from "./types";
 
 export type PublishJobParams = {
     name: string,
-    payload: JobPayload,
+    payload: ResponseJobPayload,
     priority?: number,
     queue: Queue
 }
