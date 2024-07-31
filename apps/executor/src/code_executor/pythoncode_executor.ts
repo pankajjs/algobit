@@ -1,14 +1,14 @@
 import { PYTHON_IMAGE } from "../helper/constants";
 import { getOutputStream } from "../helper/decode_buffer";
 import { pullImage } from "../helper/pull_image";
-import { ExecutorResponse, JobPayload } from "../helper/types";
+import { ExecutorResponse, RequestJobPayload } from "../helper/types";
 import { CodeExecutor } from "./code_executor";
 import { fetchProblemTestCase } from "../api/fetchproblem";
 import { parsedTestCases } from "../helper/parsed_testcase";
 import { containerFactory } from "../helper/container_factory";
 
 export class PythonCodeExecutor implements CodeExecutor{
-    async execute(payload: JobPayload): Promise<ExecutorResponse> {
+    async execute(payload: RequestJobPayload): Promise<ExecutorResponse> {
         try{
             const {problemId, code, submissionId} = payload;
             
