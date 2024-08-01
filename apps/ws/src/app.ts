@@ -28,8 +28,12 @@ let user = "1"
 
 io.on("connection", (socket)=>{
     console.log("user connected", user)
+
     redis.set(user, socket.id)
     redis.set(socket.id, user);
+
+    socket.emit("joined", user);
+    
     user = `${Number(user) + 1}`;
 
     socket.on("disconnect", async () => {
