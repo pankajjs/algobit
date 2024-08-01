@@ -1,5 +1,5 @@
-import { ExecutorResponse, JobPayload } from "../helper/types";
+import { OutputStream } from "../helper/types";
 
 export interface CodeExecutor {
-    execute(payload: JobPayload):Promise<ExecutorResponse>
+    execute(code: string, input: string):Promise<OutputStream>
 }
