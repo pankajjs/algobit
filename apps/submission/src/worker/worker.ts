@@ -18,11 +18,10 @@ const worker = new Worker(
                     status: getStatus(job.data.status)
                 }
             })
-            
+            console.log(job.data)
             await sendSubmissionResponse({
-                submissionId: submission.id,
-                status: submission.status,
-                userId: submission.userId,
+               userId: submission.userId,
+               ...job.data,
             });
         },
         {
