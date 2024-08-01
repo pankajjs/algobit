@@ -6,6 +6,7 @@
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Services](#running-the-services)
+- [Demo](#demo)
 
 ## Project Structure
 
@@ -81,3 +82,5 @@ To run a microservice, navigate to its directory and start the service:
 ```
 cd apps/admin && npm run dev
 ```
+# Demo
+For detailed instructions on testing the WebSocket connection and submission flow, refer to the [demo.md](demo.md) file.
