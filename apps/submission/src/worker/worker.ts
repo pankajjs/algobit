@@ -4,6 +4,7 @@ import { SUBMISSION_RESPONSE_QUEUE } from "../helper/constants";
 import { ResponseJobPayload } from "../helper/types";
 import { db } from "../helper/db";
 import { getStatus } from "../helper/get_status";
+import { sendSubmissionResponse } from "../api/submission_response";
 
 const worker = new Worker(
         SUBMISSION_RESPONSE_QUEUE,
@@ -17,8 +18,12 @@ const worker = new Worker(
                     status: getStatus(job.data.status)
                 }
             })
-            console.log(submission);
-
+            
+            await sendSubmissionResponse({
+                submissionId: submission.id,
+                status: submission.status,
+                userId: submission.userId,
+            });
         },
         {
             connection: redisConnection,
