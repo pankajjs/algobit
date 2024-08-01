@@ -14,8 +14,12 @@ export type RequestJobPayload = {
 }
 
 export type ResponseJobPayload = {
-    submissionId: string,
-    status: string
+    submissionId: string;
+    status: string;
+    input?: string[] | string;
+    output?: string[] | string;
+    expectedOutput?: string;
+    error?: string;
 }
 
 export type OutputStream = {
