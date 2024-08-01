@@ -1,21 +1,13 @@
 import { PYTHON_IMAGE } from "../helper/constants";
 import { getOutputStream } from "../helper/decode_buffer";
 import { pullImage } from "../helper/pull_image";
-import { ExecutorResponse, RequestJobPayload } from "../helper/types";
+import { OutputStream } from "../helper/types";
 import { CodeExecutor } from "./code_executor";
-import { fetchProblemTestCase } from "../api/fetchproblem";
-import { parsedTestCases } from "../helper/parsed_testcase";
 import { containerFactory } from "../helper/container_factory";
 
 export class PythonCodeExecutor implements CodeExecutor{
-    async execute(payload: RequestJobPayload): Promise<ExecutorResponse> {
+    async execute(code: string, input: string): Promise<OutputStream> {
         try{
-            const {problemId, code, submissionId} = payload;
-            
-            const testCases = await fetchProblemTestCase(problemId);
-            
-            const {input, output} = parsedTestCases(testCases);
-
             const streamChunks: Buffer[] = [];
             const sanitizedCode = code.replace(/'/g, `"`);
             const command = `echo '${input}' | python3 -c '${sanitizedCode}'`;
@@ -42,27 +34,7 @@ export class PythonCodeExecutor implements CodeExecutor{
                     
                     const bufferStream = Buffer.concat(streamChunks);
                     const outputStream = getOutputStream(bufferStream);
-                    
-                    if(outputStream.stderr != ""){
-                        resolve({
-                            submissionId,
-                            status: "Error",
-                            err: outputStream.stderr,
-                        })
-                    }
-                    else{
-                        if(output == outputStream.stdout){
-                            resolve({
-                                status: "Success",
-                                submissionId,
-                            })
-                        }else{
-                            resolve({
-                                status: "WA",
-                                submissionId,
-                            })
-                        }
-                    }                    
+                    resolve(outputStream);
                     await container.remove();
                 })
 
