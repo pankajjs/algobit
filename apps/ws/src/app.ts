@@ -48,12 +48,12 @@ io.on("connection", (socket)=>{
 
 app.post("/submission-response", async (req, res, next) => {
     try {
-        const { submissionId, userId, status } = JSON.parse(req.body);
+        const data = JSON.parse(req.body);
         
-        const socketId = await redis.get(userId);
+        const socketId = await redis.get(data.userId);
         
         if(!socketId){
-            throw new ApiError(`User not connected for userId ${userId}`, StatusCodes.NOT_FOUND);
+            throw new ApiError(`User not connected for userId ${data.userId}`, StatusCodes.NOT_FOUND);
         }
         
         const socket = io.sockets.sockets.get(socketId);
@@ -62,7 +62,7 @@ app.post("/submission-response", async (req, res, next) => {
             throw new ApiError(`Socket connection not found for socketId ${socketId}`, StatusCodes.NOT_FOUND);
         }
         
-        socket.emit("submission-response", { submissionId, userId, status });
+        socket.emit("submission-response", data);
         
         return res.status(StatusCodes.CREATED).send({
             success: true,
