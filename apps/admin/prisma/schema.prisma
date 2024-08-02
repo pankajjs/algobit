@@ -17,6 +17,15 @@ model Problem {
   testCases       TestCase[]
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  codestubs       CodeStub[]
+  timeLimit       Int
+}
+
+type CodeStub{
+  language      String
+  userSnippet   String
+  startSnippet  String
+  endSnippet    String
 }
 
 type TestCase {

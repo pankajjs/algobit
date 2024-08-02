@@ -12,6 +12,31 @@ const seed = async () => {
                     output: "8",
                 },
                 {input: "0\n2", output: "2"}
+            ],
+            timeLimit: 1,
+            codestubs: [
+                {
+                    language: "python",
+                    userSnippet: `
+class Solution:
+    def add(a, b):`,
+                    startSnippet:`
+import sys`,
+                    endSnippet:`
+class Main:
+    def process_input():
+        a = int(input())
+        b = int(input())
+        sol = Solution.add(a, b)
+        print(sol)
+    def main():
+        while True:
+            try:
+                Main.process_input()
+            except EOFError:
+                break
+Main.main()
+` }
             ]
         },
         {
@@ -24,7 +49,8 @@ const seed = async () => {
                     output: "2",
                 },
                 {input: "3\n1", output: "0"}
-            ]
+            ],
+            timeLimit: 1,
         },
     ]
 
