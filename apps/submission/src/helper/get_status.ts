@@ -6,6 +6,6 @@ export const getStatus = (status: string)=>{
     }else if(status == "WA"){
         return Status.WA;
     }else{
-        return Status.RE
+        return Status.Error
     }
 }
