@@ -9,7 +9,7 @@ import { publishJob } from "./publisher";
 import { RequestJobPayload } from "./types";
 
 export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
-    return new Promise<{status: string, message: string}>(async (resolve, reject)=>{
+    return new Promise<{status: string, message: string, error?: string}>(async (resolve, reject)=>{
         try{
             const {problemId, language, code, submissionId} = payload;
 
@@ -34,12 +34,13 @@ export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
 
             resolve({
                 status: "Success",
-                message: "Sucessfully handled job"
+                message: "Sucessfully handled job",
             })
         }catch(error){
             reject({
                 status: "Failed",
-                message: "Job failed"
+                message: "Job failed",
+                error: error,
             })
         }
     })
