@@ -19,7 +19,7 @@ export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
 
             const codeExecutor = codeExecutorFactory(language);
 
-            const codestub = problem.codestubs.find(({language})=>language.toLowerCase() == language);
+            const codestub = problem.codestubs.find((codestub)=>codestub.language.toLowerCase() == language.toLowerCase());
 
             if(!codestub){
                 reject({
