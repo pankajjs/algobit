@@ -15,13 +15,12 @@ model Submission {
   language        String 
   createdAt       DateTime  @default(now())
   status          Status    @default(Pending)
+  error           String?
 }
 
 enum Status {
   Pending
   Success
-  RE
-  TLE
-  MLE
+  Error
   WA
 }
