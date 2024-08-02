@@ -18,7 +18,21 @@ export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
             const {input, output} = parsedTestCases(problem.testCases);
 
             const codeExecutor = codeExecutorFactory(language);
-            const outputStream = await codeExecutor.execute(code, input);
+
+            const codestub = problem.codestubs.find(({language})=>language.toLowerCase() == language);
+
+            if(!codestub){
+                reject({
+                    status: "Failed",
+                    message: "Job failed",
+                    error: "Codestub not found",
+                })
+                return;
+            }
+
+            const updatedCode = codestub.startSnippet + "\n\n" + code + "\n\n" + codestub.endSnippet;
+            console.log(updatedCode)
+            const outputStream = await codeExecutor.execute(updatedCode, input, problem.timeLimit);
             
             console.log(outputStream);
 
