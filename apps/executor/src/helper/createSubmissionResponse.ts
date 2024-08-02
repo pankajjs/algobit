@@ -13,9 +13,9 @@ export const createSubmissionResponse = (arg: WAResponse | SuccessResponse | Err
         return {
             submissionId,
             status: arg.status,
-            input: testCases[arg.testCase == 0?arg.testCase:arg.testCase - 1].input,
-            output: arg.output,
-            expectedOutput: arg.expectedOutput,
+            input: testCases[arg.testCases[0]].input,
+            output: arg.output[0],
+            expectedOutput: arg.expectedOutput[0],
         }
     }else {
         return {

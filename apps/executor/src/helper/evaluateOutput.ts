@@ -7,12 +7,23 @@ export const evaluateExecutionResponse = (outputStream: OutputStream, expectedOu
         if(executionOutput === expectedOutput){
             return new SuccessResponse("Success");
         }
-    
-        for(let i = 0; expectedOutput.length; i++){
-            if(executionOutput[i] != expectedOutput[i]){
-                return new WAResponse(i, executionOutput[i], expectedOutput[i])
+        
+        const executionOutputList = executionOutput.split("\n");
+        const expectedOutputList = expectedOutput.split("\n");
+        
+        const testCasesResponse: number[] = [];
+        const expectedOutputResponse: string[] = [];
+        const executionOutputResponse: string[] = [];
+
+        executionOutputList.forEach((v, i)=>{
+            if(v != expectedOutputList[i]){
+                testCasesResponse.push(i);
+                expectedOutputResponse.push(expectedOutputList[i])
+                executionOutputResponse.push(v);
             }
-        }
+        })
+
+        return new WAResponse(testCasesResponse, executionOutputResponse, expectedOutputResponse);
     }
     
     return new ErrorResponse(outputStream.stderr, "Error");

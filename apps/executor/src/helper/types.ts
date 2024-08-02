@@ -10,7 +10,7 @@ export type ResponseJobPayload = {
     status: string;
     input?: string[] | string;
     output?: string[] | string;
-    expectedOutput?: string;
+    expectedOutput?: string | string[];
     error?: string;
 }
 
@@ -31,13 +31,13 @@ export class SuccessResponse {
 }
 
 export class WAResponse {
-    testCase: number;
-    output: string;
-    expectedOutput: string;
+    testCases: number[];
+    output: string[];
+    expectedOutput: string[];
     status: string;
-    constructor(testCase: number, output: string, expectedOutput: string){
+    constructor(testCases: number[], output: string[], expectedOutput: string[]){
         this.status = "WA";
-        this.testCase = testCase;
+        this.testCases = testCases;
         this.expectedOutput = expectedOutput;
         this.output = output;
     }
@@ -47,7 +47,6 @@ export type OutputStream = {
     stderr: string,
     stdout: string,
 }
-
 
 export type TestCases = {input: string, output: string}[]
 
