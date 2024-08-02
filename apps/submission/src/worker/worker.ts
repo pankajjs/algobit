@@ -10,12 +10,15 @@ const worker = new Worker(
         SUBMISSION_RESPONSE_QUEUE,
         async (job: Job<ResponseJobPayload>) => {
             
+            const status = getStatus(job.data.status);
+
             const submission = await db.submission.update({
                 where: {
                     id: job.data.submissionId,
                 },
                 data: {
-                    status: getStatus(job.data.status)
+                    status: status,
+                    error: job.data.error,
                 }
             })
             console.log(job.data)
