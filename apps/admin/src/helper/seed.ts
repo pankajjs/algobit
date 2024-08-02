@@ -36,7 +36,13 @@ class Main:
             except EOFError:
                 break
 Main.main()
-` }
+` },
+{
+    "language": "java",
+    "userSnippet": "class Solution {\n    public static int add(int a, int b) {}",
+    "startSnippet": "import java.util.Scanner;",
+    "endSnippet": "public class Main {\n    public static void processInput(Scanner scanner) {\n        int a = scanner.nextInt();\n        int b = scanner.nextInt();\n        int result = Solution.add(a, b);\n        System.out.println(result);\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        while (scanner.hasNextInt()) {\n            processInput(scanner);\n        }\n        scanner.close();\n    }\n}"
+  }
             ]
         },
         {

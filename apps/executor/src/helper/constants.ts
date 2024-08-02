@@ -15,3 +15,4 @@ export const SUBMISSION_RESPONSE_QUEUE: string = "SubmissionResponseQueue";
 export const SUBMISSION_RESPONSE_JOB: string = "SubmissionResponseJob";
 export const PYTHON_TIME_LIMIT: number = 2;
 export const TIME_LIMIT_SECOND: number = 1000;
+export const JAVA_TIME_LIMIT: number = 2; 
