@@ -67,3 +67,10 @@ export type Problem = {
         userSnippet: string,
     }[]
 }
+
+export type ExecuteCodeParam = {
+    image: string,
+    commands: string[],
+    timeLimit: number,
+    languageTimeLimit: number,
+}
