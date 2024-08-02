@@ -60,4 +60,11 @@ export type Problem = {
     difficulty: string,
     createdAt: Date,
     updatedAt: Date,
+    timeLimit: number,
+    codestubs: {
+        language: string,
+        startSnippet: string,
+        endSnippet: string, 
+        userSnippet: string,
+    }[]
 }
