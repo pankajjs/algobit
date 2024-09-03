@@ -10,6 +10,34 @@ problemRouter.get("/ping", (_: Request, res: Response)=>{
     return res.status(StatusCodes.OK).send("[ProblemController]: pong");
 })
 
+problemRouter.get("/:name([a-zA-Z]+)", async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const name = req.params.name;
+
+        const problem = await db.problem.findFirst({
+            where: {
+                title: name,
+            }
+        })
+
+        if(!problem){
+            throw new ApiError(`Problem not found with title=${name}`, StatusCodes.NOT_FOUND);
+        }
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            message: "Successfully fetched a problem",
+            data: {
+                ...problem,
+            },
+            error: {}
+        })
+
+    }catch(error: any){
+        next(error);
+    }
+})
+
 problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
