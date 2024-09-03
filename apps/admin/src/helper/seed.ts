@@ -4,7 +4,7 @@ const seed = async () => {
     const problems = [
         {
             title: "sum",
-            description:  "d1",
+            description:  "Add two given numbers.",
             difficulty: "easy",
             testCases: [
                 {
@@ -39,15 +39,34 @@ Main.main()
 ` },
 {
     "language": "java",
-    "userSnippet": "class Solution {\n    public static int add(int a, int b) {}",
+    "userSnippet": `
+class Solution {
+    public static int add(int a, int b) {
+    
+    }
+}`,
     "startSnippet": "import java.util.Scanner;",
-    "endSnippet": "public class Main {\n    public static void processInput(Scanner scanner) {\n        int a = scanner.nextInt();\n        int b = scanner.nextInt();\n        int result = Solution.add(a, b);\n        System.out.println(result);\n    }\n\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        while (scanner.hasNextInt()) {\n            processInput(scanner);\n        }\n        scanner.close();\n    }\n}"
-  }
+    "endSnippet": `
+public class Main {
+    public static void processInput(Scanner scanner) {
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        int result = Solution.add(a, b);
+        System.out.println(result);
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextInt()) {
+            processInput(scanner);
+        }
+        scanner.close();
+    }
+}`}
             ]
         },
         {
             title: "modulo",
-            description:  "d2",
+            description:  "Given two number n1, n2.\n Returns modulo of n1 and n2",
             difficulty: "medium",
             testCases: [
                 {
