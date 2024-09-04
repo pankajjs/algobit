@@ -4,6 +4,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import axios from "axios";
 import { notFound } from "next/navigation";
 import { Header } from "./header";
+import { ProblemDetails } from "./problem-details";
 
 
 const ADMIN_SERVICE_API = "http://localhost:3000"
@@ -12,10 +13,6 @@ const getProblem = async (title: string) => {
     const response = await axios.get(`${ADMIN_SERVICE_API}/api/v1/problems/${title}`);
     if(!response.data.success) return;
     return response.data.data;
-}
-
-const getId = (id: string): string => {
-    return id.split("").slice(0, 3).join("");
 }
 
 export default async function Problem (
@@ -28,8 +25,6 @@ export default async function Problem (
         notFound()
     }
 
-    const id = problem.id;
-
     return (
         <div className="min-h-screen bg-[#252a31]">
         <Header/>
@@ -38,10 +33,7 @@ export default async function Problem (
           className="min-h-[93vh]"
         >
           <ResizablePanel defaultSize={50} minSize={4} maxSize={96} className="border-[1px] rounded-lg border-gray-500">
-            <div className="min-w-[50%] h-full">
-                <div className="font-bold text-2xl text-gray-800">{getId(id)}. {problem.title}</div>
-                <div className="">{problem.description}</div>
-            </div>
+          <ProblemDetails problem={problem}/>
           </ResizablePanel>
           <ResizableHandle className="bg-black w-1"/>
           <ResizablePanel defaultSize={50}>
