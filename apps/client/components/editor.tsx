@@ -1,23 +1,12 @@
 "use client"
 
 import CodeMirror from '@uiw/react-codemirror';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { atomone } from '@uiw/codemirror-theme-atomone'
 import { historyField } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data'; 
-
-
-
-export const loadChosenlanguage = (language: string) => {
-    const languages = {python:"python"}
-    if(language === languages.python){
-       return langs.python();
-    }
-
-    return langs.java();
-}
 
 const stateFields = { history: historyField };
 let extensions = [markdown({ base: markdownLanguage, codeLanguages: languages })]
@@ -30,6 +19,15 @@ export function AlgobitEditor({problem}:{problem: any}) {
   const [userSnippet, setUserSnippet] = useState(languageCodeStub.userSnippet);
 
 
+  const loadChosenlanguage = useCallback((language: string) => {
+    const languages = {python:"python"}
+    if(language === languages.python){
+       return langs.python();
+    }
+
+    return langs.java();
+  }, [])
+
   extensions = [loadChosenlanguage(language), ...extensions]
   console.log(extensions);
 
@@ -37,14 +35,15 @@ export function AlgobitEditor({problem}:{problem: any}) {
     setUserSnippet(localStorage.getItem(language) || userSnippet.trim());
     setSerializedState(localStorage.getItem('myEditorState'));
 
-  }, [])
+  },  [language, userSnippet])
 
   return (
-    <div className='min-w-[50%] border'>
+    <div className='min-w-[50%]'>
     <CodeMirror
         theme={atomone}
-        minHeight='500px'
-        maxHeight='500px'
+        height='600px'
+        maxHeight='1000px'
+        minHeight='1000px'
         value={userSnippet}
         extensions={extensions}
         basicSetup={
