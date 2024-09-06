@@ -1,25 +1,23 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { PlayIcon, UploadIcon } from "@radix-ui/react-icons"
-import { useContext } from "react"
-import { UserSnippetContext } from "./UserSnippetContext"
+import { Signin } from "@/components/signin-button"
+import { Run } from "./run-button"
+import { Submit } from "./submit-button"
+import { useSession } from "next-auth/react"
+import { Logout } from "@/components/logout-button"
 
-export const Header = ({userId}:{userId:string}) => {
-    const userSnippet = useContext(UserSnippetContext);
-    console.log(userId);
+export const Header = () => {
 
-    const onSubmitHandler = ()=>{
+    const session:any = useSession()
+    console.log(session);
 
-    }
+    return <div className="h-[7vh] px-5 flex items-center bg-gray-950">
+       <div className="flex w-full justify-center gap-5 text-xs">
+            <Run/>
+            <Submit userId={session.data?.user?.id}/>
+       </div>
 
-    return <div className="h-[7vh] flex justify-center items-center gap-4 bg-gray-950">
-        <Button className="px-6 flex gap-2" variant={"destructive"}>
-            <PlayIcon className=""/>Run</Button>
-        <Button className="px-6 bg-green-600 flex gap-2 hover:bg-green-800" onClick={()=>{
-            console.log("user snippet", userSnippet);
-        }}>
-            <UploadIcon/>Submit
-        </Button>
+       {session.status === "unauthenticated" && <Signin/>}
+       {session.status === "authenticated" && <Logout/>}
     </div>
 }
