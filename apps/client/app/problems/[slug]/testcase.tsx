@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "./ui/button"
+import { Button } from "../../../components/ui/button"
 
 export const Test = ({testCases}:{testCases:any})=>{
     const [showTestInput, setShowTestInput] = useState(false);

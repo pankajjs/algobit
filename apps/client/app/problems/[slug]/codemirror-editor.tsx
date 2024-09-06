@@ -1,51 +1,45 @@
 "use client"
 
 import CodeMirror from '@uiw/react-codemirror';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { langs } from '@uiw/codemirror-extensions-langs';
 import { atomone } from '@uiw/codemirror-theme-atomone'
-import { historyField } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data'; 
 import { ChevronDown } from 'lucide-react';
 import { CheckIcon } from '@radix-ui/react-icons';
+import { UserSnippetContext } from './UserSnippetContext';
 
-const stateFields = { history: historyField };
 let extensions = [markdown({ base: markdownLanguage, codeLanguages: languages })]
 const languageList = ["java", "python"]
 
-export function AlgobitEditor({problem}:{problem: any}) {
-  console.log(problem)
+export function CodeMirrorEditor({problem}:{problem: any}) {
   const [language, setLanguage] = useState(languageList[0]);
-  const languageCodeStub = problem.codestubs.find((stub: any, idx: number)=> stub.language === language);
-  const [serializedState, setSerializedState] = useState<string|null>("");
-  const [userSnippet, setUserSnippet] = useState(languageCodeStub.userSnippet);
+  const {userSnippet, setUserSnippet} = useContext(UserSnippetContext);
   const [showLanguageList, setShowLanguageList] = useState(false);
   
-  console.log(extensions);
+  console.log(userSnippet, language)
 
   useEffect(()=>{
     const loadChosenlanguage = (language:string) => {
-      const languages = {python:"python"}
+      const languages = {python:"python", java:"java"}
       if(language === languages.python){
          return langs.python();
+      }else if(language === languages.java){
+        return langs.java();
       }
   
       return langs.java();
     }
 
     extensions = [loadChosenlanguage(language), ...extensions]
+    const languageCodeStub = problem.codestubs.find((stub: any, idx: number)=> stub.language === language);
+    setUserSnippet(languageCodeStub.userSnippet.trim())
 
   }, [language])
 
-  useEffect(()=>{
-    setUserSnippet(localStorage.getItem(language) || userSnippet.trim());
-    setSerializedState(localStorage.getItem('myEditorState'));
-
-  },  [language, userSnippet])
-
-
   return (
+   
     <div className='min-w-[50%]'>
       <div className='py-1 border-b-2 border-[#383839] px-2 relative'>
         <div
@@ -57,7 +51,7 @@ export function AlgobitEditor({problem}:{problem: any}) {
         showLanguageList && <div className='min-h-11 p-1 m-1 absolute min-w-20 bg-gray-800 z-50 text-slate-200 border border-gray-600 rounded-md'>
           {
             languageList.map((lang:string, idx:number)=>{
-              return <div onClick={()=>{
+              return <div key={idx} onClick={()=>{
                 setLanguage(lang)
                 setShowLanguageList(false)
               }} className='min-w-10 text-sm px-2 flex gap-1 items-center py-1 m-1 hover:cursor-pointer hover:border border-gray-600 rounded-md capitalize'>{lang=== language && <CheckIcon/>}{lang}</div>
@@ -78,19 +72,8 @@ export function AlgobitEditor({problem}:{problem: any}) {
         }
         }
         autoFocus={true}
-        initialState={
-            serializedState
-            ? {
-                json: JSON.parse(serializedState || ''),
-                fields: stateFields,
-                }
-            : undefined
-        }
-        onChange={(value, viewUpdate) => {
-            localStorage.setItem(language, value);
-
-            const state = viewUpdate.state.toJSON(stateFields);
-            localStorage.setItem('myEditorState', JSON.stringify(state));
+        onChange={(value) => {
+            setUserSnippet(value);
         }}
     />
     </div>
