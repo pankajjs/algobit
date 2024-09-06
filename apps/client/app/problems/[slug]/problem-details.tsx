@@ -1,14 +1,24 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { socket } from "@/socket";
+import { useRef, useState } from "react";
 
 export const ProblemDetails = ({problem}:{problem:any}) => {
 
     const id = problem.id;
     const [showDescription, setShowDescription] = useState(true);
     const [showSubmissions, setShowSubmissions] = useState(false);
+    const [submissonDetails, setSubmissionDetails] = useState(null);
 
+    const submissionRef = useRef<HTMLDivElement|null>(null);
+    
+    socket.on("submission-response", (data)=>{
+        console.log(data)
+        setShowDescription(false)
+        setShowSubmissions(true);
+        setSubmissionDetails(data)
+    })
 
     return (
     <div className="min-w-[50%] h-full">
@@ -33,7 +43,8 @@ export const ProblemDetails = ({problem}:{problem:any}) => {
             </div>
         </div>
       }
-      {showSubmissions && <div>
+    {showSubmissions && <div ref={submissionRef}>
+      {JSON.stringify(submissonDetails)}
         </div>}
     </div>
     )

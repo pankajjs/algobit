@@ -24,18 +24,15 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
 }});
 
-let user = "1"
-
 io.on("connection", (socket)=>{
-    console.log("user connected", user)
+    socket.on("user_joined", (data)=>{
+        const userId = data;
+        console.log("userId: ", userId);
 
-    redis.set(user, socket.id)
-    redis.set(socket.id, user);
-
-    socket.emit("joined", user);
-    
-    user = `${Number(user) + 1}`;
-
+        redis.set(userId, socket.id)
+        redis.set(socket.id, userId);
+    })
+  
     socket.on("disconnect", async () => {
         const userId = await redis.get(socket.id);
 
@@ -43,6 +40,7 @@ io.on("connection", (socket)=>{
             redis.del(userId);
             redis.del(socket.id);
         }
+        console.log("User disconnected. userId: ", userId, ", socketId: ", socket.id)
     });
 })
 
@@ -61,7 +59,7 @@ app.post("/submission-response", async (req, res, next) => {
         if (!socket) {
             throw new ApiError(`Socket connection not found for socketId ${socketId}`, StatusCodes.NOT_FOUND);
         }
-        
+        console.log(data);
         socket.emit("submission-response", data);
         
         return res.status(StatusCodes.CREATED).send({

@@ -5,34 +5,18 @@ import { Header } from "./header"
 import { ProblemDetails } from "./problem-details"
 import { Test } from "./testcase"
 import { CodeMirrorEditor } from "./codemirror-editor"
-import { UserSnippetContext } from "./UserSnippetContext"
-import { useEffect, useState } from "react"
-import { socket } from "@/socket"
+import { UserSnippetContext, UserSnippetStatus } from "./UserSnippetContext"
+import { useState } from "react"
 
 export const AlgobitEditor = ({problem}:{problem:any}) => {
 
-    const [userSnippet, setUserSnippet] = useState("");
-    const contextValue = {userSnippet, setUserSnippet};
-    // const [isConnected, setIsConnected] = useState(false);
+    const [userSnippetStatus, setUserSnippetStatus] = useState<UserSnippetStatus>({
+        language: "",
+        problemId: "",
+        code: ""
+    });
 
-    // useEffect(()=>{
-    //     if (socket.connected) {
-    //         onConnect();
-    //     }
-
-    //     function onConnect() {
-    //         setIsConnected(true);
-    //     }
-
-    //     function onDisconnect() {
-    //         setIsConnected(false);
-    //     }
-    //     return () => {
-    //         socket.off("connect", onConnect);
-    //         socket.off("disconnect", onDisconnect);
-    //     } 
-      
-    // }, [])
+    const contextValue =  {userSnippetStatus, setUserSnippetStatus}
 
     // @ts-ignore
     return  <UserSnippetContext.Provider value={contextValue}>

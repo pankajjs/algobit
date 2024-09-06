@@ -1,6 +1,19 @@
 import { createContext } from "react";
 
-export const UserSnippetContext = createContext({
-    userSnippet: "",
-    setUserSnippet: (_:string) => {}
+export type UserSnippetStatus = {
+    language: string,
+    code: string,
+    problemId: string
+}
+
+type UserSnippetContext = {
+    userSnippetStatus: UserSnippetStatus, 
+    setUserSnippetStatus:(_:UserSnippetStatus)=>void
+}
+
+export const UserSnippetContext = createContext<UserSnippetContext>({
+    userSnippetStatus: {code:"", language: "", problemId:
+        ""
+    },
+    setUserSnippetStatus:(_:UserSnippetStatus)=>{}
 })

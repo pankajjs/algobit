@@ -8,6 +8,7 @@ const submissionWorker = new Worker(
         SUBMISSION_REQUEST_QUEUE,
         async (job: Job<RequestJobPayload> ) => {
             try{
+                console.log(job.data)
                 await submissionRequestJobHandler(job.data);
             }catch(error){
                 console.log(error);

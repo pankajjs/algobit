@@ -15,10 +15,10 @@ const languageList = ["java", "python"]
 
 export function CodeMirrorEditor({problem}:{problem: any}) {
   const [language, setLanguage] = useState(languageList[0]);
-  const {userSnippet, setUserSnippet} = useContext(UserSnippetContext);
+  const {userSnippetStatus, setUserSnippetStatus} = useContext(UserSnippetContext);
   const [showLanguageList, setShowLanguageList] = useState(false);
   
-  console.log(userSnippet, language)
+  console.log(userSnippetStatus, language)
 
   useEffect(()=>{
     const loadChosenlanguage = (language:string) => {
@@ -34,7 +34,9 @@ export function CodeMirrorEditor({problem}:{problem: any}) {
 
     extensions = [loadChosenlanguage(language), ...extensions]
     const languageCodeStub = problem.codestubs.find((stub: any, idx: number)=> stub.language === language);
-    setUserSnippet(languageCodeStub.userSnippet.trim())
+    setUserSnippetStatus({
+      ...userSnippetStatus, code: languageCodeStub.userSnippet.trim(), language, problemId: problem.id
+    })
 
   }, [language])
 
@@ -64,7 +66,7 @@ export function CodeMirrorEditor({problem}:{problem: any}) {
         height='600px'
         maxHeight='1000px'
         minHeight='1000px'
-        value={userSnippet}
+        value={userSnippetStatus.code}
         extensions={extensions}
         basicSetup={
         {
@@ -73,7 +75,9 @@ export function CodeMirrorEditor({problem}:{problem: any}) {
         }
         autoFocus={true}
         onChange={(value) => {
-            setUserSnippet(value);
+          setUserSnippetStatus({
+            ...userSnippetStatus, code: value
+          })
         }}
     />
     </div>

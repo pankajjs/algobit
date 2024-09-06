@@ -37,7 +37,7 @@ async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPlugin
                 }
             });
 
-            await publishJob({
+            publishJob({
                 name: SUBMISSION_REQUEST_JOB,
                 payload: {
                     submissionId: submission.id,
