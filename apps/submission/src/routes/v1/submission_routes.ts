@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from "fastify";
 import { ApiError, Submission } from "../../helper/types";
 import { StatusCodes } from "http-status-codes";
 import { db } from "../../helper/db";
@@ -10,6 +10,35 @@ async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPlugin
     fastify.get("/ping", async function (_req, res){
         return res.send("[SubmissinController]: pong");
     });
+
+    fastify.get("", async function getUserSubmission(request, reply) {
+        try{
+            const { userId } = request.query as {userId: string};
+            
+            const submissions = await db.submission.findMany({
+                where: {
+                    userId: userId,
+                    status: {
+                        not: "Pending"
+                    }
+                },
+                orderBy: {
+                    createdAt: "desc"
+                }
+            })
+
+            return reply.status(StatusCodes.OK).send({
+                success: true,
+                message: "Successfully fetched all submission of user",
+                data: submissions,
+                error: {}
+            });;
+
+        }catch(error: any){
+            fastify.log.error("Error in getUserSubmission", error.message);
+            throw error;
+        }
+    })
 
     fastify.post("/", async function createSubmision(req, res){
         try{
