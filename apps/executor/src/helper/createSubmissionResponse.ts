@@ -3,7 +3,7 @@ import { ErrorResponse, ResponseJobPayload, SuccessResponse, TestCases, WARespon
 export const createSubmissionResponse = (arg: WAResponse | SuccessResponse | ErrorResponse, testCases: TestCases, submissionId: string): ResponseJobPayload => {
     if(arg instanceof SuccessResponse){
         return {
-            submissionId,
+            id:submissionId,
             status: arg.status,
             input: testCases.slice(0, 3).map(tc=>tc.input),
             output: testCases.slice(0, 3).map(tc=>tc.output)
@@ -11,7 +11,7 @@ export const createSubmissionResponse = (arg: WAResponse | SuccessResponse | Err
     }
     else if(arg instanceof WAResponse){
         return {
-            submissionId,
+            id:submissionId,
             status: arg.status,
             input: testCases[arg.testCases[0]].input,
             output: arg.output[0],
@@ -19,7 +19,7 @@ export const createSubmissionResponse = (arg: WAResponse | SuccessResponse | Err
         }
     }else {
         return {
-            submissionId,
+            id:submissionId,
             status: arg.status,
             error: arg.error,
         }

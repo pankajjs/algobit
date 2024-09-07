@@ -14,7 +14,7 @@ const worker = new Worker(
 
             const submission = await db.submission.update({
                 where: {
-                    id: job.data.submissionId,
+                    id: job.data.id,
                 },
                 data: {
                     status: status,

@@ -8,7 +8,7 @@ export type JobPayload = {
 }
 
 export type ResponseJobPayload = {
-    submissionId: string;
+    id: string;
     status: string;
     input?: string[] | string;
     output?: string[] | string;

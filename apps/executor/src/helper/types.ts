@@ -6,7 +6,7 @@ export type RequestJobPayload = {
 }
 
 export type ResponseJobPayload = {
-    submissionId: string;
+    id: string;
     status: string;
     input?: string[] | string;
     output?: string[] | string;
