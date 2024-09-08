@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request } from "express";
 import { createServer } from "http";
 import StatusCodes from "http-status-codes";
 import { errorHandler } from "./helper/middleware";
@@ -44,11 +44,24 @@ io.on("connection", (socket)=>{
     });
 })
 
-app.post("/submission-response", async (req, res, next) => {
+app.post("/submission-response", async (req:Request<{}, {}, any, {run:boolean}>, res, next) => {
     try {
+        const run = req.query.run;
         const data = JSON.parse(req.body);
         
-        const socketId = await redis.get(data.userId);
+        let id:string;
+        let event:string;
+
+        if(run){
+            id = data.id;
+            event = "run-response";
+        }else{
+            id = data.userId;
+            event = "submission-response";
+        }
+        
+        console.log(data, run, id);
+        const socketId = await redis.get(id);
         
         if(!socketId){
             throw new ApiError(`User not connected for userId ${data.userId}`, StatusCodes.NOT_FOUND);
@@ -59,8 +72,8 @@ app.post("/submission-response", async (req, res, next) => {
         if (!socket) {
             throw new ApiError(`Socket connection not found for socketId ${socketId}`, StatusCodes.NOT_FOUND);
         }
-        console.log(data);
-        socket.emit("submission-response", data);
+
+        socket.emit(event, data);
         
         return res.status(StatusCodes.CREATED).send({
             success: true,

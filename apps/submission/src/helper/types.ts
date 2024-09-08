@@ -1,14 +1,14 @@
 import z from "zod";
 
-export type JobPayload = {
+export type RequestJobPayload = {
+    id: string,
     code: string,
     language: string,
     problemId: string,
-    submissionId: string,
 }
 
 export type ResponseJobPayload = {
-    id: string;
+    id: string,
     status: string;
     input?: string[] | string;
     output?: string[] | string;
@@ -19,16 +19,10 @@ export type ResponseJobPayload = {
 export type SubmissionResponsePayload = {
     code: string,
     createdAt: Date,
-    id: string,
     language: string,
     problemId: string,
-    status: string,
     userId: string
-    error?: string,
-    expectedOutput?:string,
-    input?: string[] | string,
-    output?: string[] | string
-}
+} & ResponseJobPayload;
 
 export class ApiError extends Error {
     statusCode: number;

@@ -1,15 +1,20 @@
 import { Job, Worker } from "bullmq";
 import { redisConnection } from "../helper/redis";
-import { SUBMISSION_RESPONSE_QUEUE } from "../helper/constants";
+import { RESPONSE_QUEUE, RUN_RESPONSE_JOB, SUBMISSION_RESPONSE_JOB } from "../helper/constants";
 import { ResponseJobPayload, SubmissionResponsePayload } from "../helper/types";
 import { db } from "../helper/db";
 import { getStatus } from "../helper/get_status";
-import { sendSubmissionResponse } from "../api/submission_response";
+import { sendResponse } from "../api/submission_response";
 
 const worker = new Worker(
-        SUBMISSION_RESPONSE_QUEUE,
+        RESPONSE_QUEUE,
         async (job: Job<ResponseJobPayload>) => {
             
+            if(job.name === RUN_RESPONSE_JOB){
+                await sendResponse(job.data, true);
+                return;
+            }
+
             const status = getStatus(job.data.status);
             let response: SubmissionResponsePayload;
 
@@ -26,6 +31,7 @@ const worker = new Worker(
                     }
                 })
                 response = {
+                        ...job.data,
                         code: submission.code,
                         createdAt: submission.createdAt,
                         id: submission.id,
@@ -33,10 +39,6 @@ const worker = new Worker(
                         problemId: submission.problemId,
                         status: submission.status,
                         userId: submission.userId,
-                        error: submission.error??undefined,
-                        expectedOutput: job.data.expectedOutput,
-                        input: job.data.input,
-                        output: job.data.output
                 }
             }else{
                 const submission =  await db.submission.update({
@@ -61,7 +63,7 @@ const worker = new Worker(
                 }
             }
 
-            sendSubmissionResponse(response);
+            await sendResponse(response, false);
         },
         {
             connection: redisConnection,

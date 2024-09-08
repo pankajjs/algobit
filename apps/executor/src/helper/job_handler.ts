@@ -1,19 +1,29 @@
 import { fetchProblemDetails } from "../api/fetchproblem";
 import { codeExecutorFactory } from "../code_executor/factory";
-import { submissionResponseQueue } from "../queue/submission_response";
-import { SUBMISSION_RESPONSE_JOB } from "./constants";
-import { createSubmissionResponse } from "./createSubmissionResponse";
+import { responseQueue } from "../queue/response_queue";
+import { RUN_REQUEST_JOB, RUN_RESPONSE_JOB, SUBMISSION_RESPONSE_JOB } from "./constants";
+import { createResponse } from "./createResponse";
 import { evaluateExecutionResponse } from "./evaluateOutput";
 import { parsedTestCases } from "./parsed_testcase";
 import { publishJob } from "./publisher";
 import { RequestJobPayload } from "./types";
 
-export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
+export const requestQueueJobHandler = (requestJobName: string, payload: RequestJobPayload) => {
     return new Promise<{status: string, message: string, error?: string}>(async (resolve, reject)=>{
         try{
-            const {problemId, language, code, submissionId} = payload;
 
-            const problem = await fetchProblemDetails(problemId);
+            const {problemId, language, code} = payload;
+
+            let problem;
+            let responseJobName: string;
+
+            if(requestJobName === RUN_REQUEST_JOB){
+                responseJobName = RUN_RESPONSE_JOB;
+                problem = await fetchProblemDetails(problemId, true);
+            }else{
+                responseJobName = SUBMISSION_RESPONSE_JOB;
+                problem = await fetchProblemDetails(problemId, false);
+            }
 
             const {input, output} = parsedTestCases(problem.testCases);
 
@@ -37,12 +47,14 @@ export const submissionRequestJobHandler = (payload: RequestJobPayload) => {
             console.log(outputStream);
 
             const evaluationResponse = evaluateExecutionResponse(outputStream, output);
-            const jobPayload = createSubmissionResponse(evaluationResponse, problem.testCases, submissionId);
+
+            const jobPayload = createResponse(evaluationResponse, problem.testCases, payload.id);
+           
             console.log(jobPayload);
 
             await publishJob({
-                name: SUBMISSION_RESPONSE_JOB,
-                queue: submissionResponseQueue,
+                name: responseJobName ,
+                queue: responseQueue,
                 payload: jobPayload,
             })
 

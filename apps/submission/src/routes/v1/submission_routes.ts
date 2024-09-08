@@ -1,15 +1,55 @@
-import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { ApiError, Submission } from "../../helper/types";
 import { StatusCodes } from "http-status-codes";
 import { db } from "../../helper/db";
 import { publishJob } from "../../helper/publisher";
-import { SUBMISSION_REQUEST_JOB } from "../../helper/constants";
-import { submissionRequestQueue } from "../../queue/submission_request";
+import { RUN_REQUEST_JOB, SUBMISSION_REQUEST_JOB } from "../../helper/constants";
+import { requestQueue } from "../../queue/submission_request";
 
 async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPluginOptions){
     fastify.get("/ping", async function (_req, res){
         return res.send("[SubmissinController]: pong");
     });
+
+    fastify.post("/run", async function run(req, res){
+        try{
+            
+            const parsedSchema = await Submission.safeParseAsync(req.body);
+
+            if(!parsedSchema.success){
+                throw new ApiError("Invalid request body", StatusCodes.BAD_REQUEST,
+                    parsedSchema.error.issues.map(issue=>({
+                        message: issue.message,
+                        path: issue.path,
+                    }))
+                )
+            }
+
+            // Todo: check user exists
+            // Todo: check problem exists
+
+            await publishJob({
+                name: RUN_REQUEST_JOB,
+                payload: {
+                  code: parsedSchema.data.code,
+                  language: parsedSchema.data.language,
+                  problemId: parsedSchema.data.problemId,
+                  id: parsedSchema.data.userId,
+                },
+                queue: requestQueue,
+            })
+            
+            return res.status(StatusCodes.CREATED).send({
+                success: true,
+                message: "Successfully submitted a request",
+                data:  parsedSchema.data,
+                error: {}
+            });
+        }catch(error: any){
+            fastify.log.error("Error in run", error.message);
+            throw error;
+        }    
+    })
 
     fastify.get("", async function getUserSubmission(request, reply) {
         try{
@@ -66,15 +106,15 @@ async function SubmissionRoutes(fastify: FastifyInstance, _option: FastifyPlugin
                 }
             });
 
-            publishJob({
+            await publishJob({
                 name: SUBMISSION_REQUEST_JOB,
                 payload: {
-                    submissionId: submission.id,
+                    id: submission.id,
                     code: submission.code,
                     language: submission.language, 
                     problemId: submission.problemId,
                 },
-                queue: submissionRequestQueue,
+                queue: requestQueue,
             })
             
             return res.status(StatusCodes.CREATED).send({

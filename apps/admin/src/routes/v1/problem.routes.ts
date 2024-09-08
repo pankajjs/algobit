@@ -42,15 +42,17 @@ problemRouter.get("/:name([a-zA-Z]+)", async (req: Request, res: Response, next:
 })
 
 // Used by Internal services
-problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+problemRouter.get("/:id", async (req: Request<{id: string}, {}, {}, {run:boolean}>, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
+        const run = req.query.run;
 
         const problem = await db.problem.findFirst({
             where: {
                 id: id,
             },
             select:{
+                id: true,
                 timeLimit: true,
                 codestubs: true,
                 testCases: true,
@@ -59,6 +61,10 @@ problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction
 
         if(!problem){
             throw new ApiError(`Problem not found with id=${id}`, StatusCodes.NOT_FOUND);
+        }
+
+        if(run && run === true){
+            problem.testCases = problem.testCases.slice(0, 3);
         }
 
         return res.status(StatusCodes.OK).json({

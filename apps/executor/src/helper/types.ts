@@ -1,8 +1,8 @@
 export type RequestJobPayload = {
+    id: string,
     code: string,
     language: string,
     problemId: string,
-    submissionId: string
 }
 
 export type ResponseJobPayload = {
@@ -52,13 +52,7 @@ export type TestCases = {input: string, output: string}[]
 
 export type Problem = {
     id: string,
-    title: string,
-    description: string,
-    editorial: string,
     testCases: TestCases
-    difficulty: string,
-    createdAt: Date,
-    updatedAt: Date,
     timeLimit: number,
     codestubs: {
         language: string,

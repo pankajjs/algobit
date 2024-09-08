@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { UploadIcon } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserSnippetContext } from "./UserSnippetContext";
 import { socket } from "@/socket";
 import { useSession } from "next-auth/react";
@@ -15,18 +15,7 @@ export const Submit = ()=>{
     const {userSnippetStatus} = useContext(UserSnippetContext);
     const {isSubmissionResponse, setIsSubmissionResponse} = useContext(SubmissionResponseContext);
     const session:any = useSession();
-    useEffect(()=>{
-        socket.on("connect", ()=>{
-            console.log("user connected.")
-        })
-
-        return ()=>{
-            socket.on("disconncted", ()=>{
-                console.log("user disconnected");
-            })
-        }
-    }, [])
-
+   
     const onSubmit = async () => {
         if(session.status === "authenticated"){
             setIsSubmissionResponse(true);

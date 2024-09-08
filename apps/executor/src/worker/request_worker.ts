@@ -1,15 +1,14 @@
 import { Job, Worker } from "bullmq";
 import { redisConnection } from "../helper/redis";
-import { SUBMISSION_REQUEST_QUEUE } from "../helper/constants";
+import { REQUEST_QUEUE } from "../helper/constants";
 import { RequestJobPayload } from "../helper/types";
-import { submissionRequestJobHandler } from "../helper/job_handler";
+import { requestQueueJobHandler } from "../helper/job_handler";
 
-const submissionWorker = new Worker(
-        SUBMISSION_REQUEST_QUEUE,
+const requestQueueWorker = new Worker(
+        REQUEST_QUEUE,
         async (job: Job<RequestJobPayload> ) => {
             try{
-                console.log(job.data)
-                await submissionRequestJobHandler(job.data);
+                requestQueueJobHandler(job.name, job.data);
             }catch(error){
                 console.log(error);
                 throw error;
@@ -22,5 +21,5 @@ const submissionWorker = new Worker(
 );
 
 export {
-    submissionWorker
+    requestQueueWorker
 }

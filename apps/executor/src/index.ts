@@ -1,10 +1,10 @@
 import { app } from "./app";
 import { ServerConfig } from "./config/server_config";
-import { submissionWorker } from "./worker/submission_worker";
+import { requestQueueWorker } from "./worker/request_worker";
 
 const PORT = ServerConfig.PORT; 
 
 app.listen(PORT, () => {
-    submissionWorker.run();
+    requestQueueWorker.run();
     console.log(`Executor service is running on port=${PORT}`);
 })

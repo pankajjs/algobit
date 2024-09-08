@@ -1,9 +1,9 @@
-import { SUBMISSION_REQUEST_QUEUE } from "../helper/constants";
+import { REQUEST_QUEUE } from "../helper/constants";
 import { redisConnection } from "../helper/redis";
 
 import { createQueue } from "./queue_factory";
 
-export const submissionRequestQueue = createQueue({
-    name: SUBMISSION_REQUEST_QUEUE,
+export const requestQueue = createQueue({
+    name: REQUEST_QUEUE,
     options: redisConnection,
 });
