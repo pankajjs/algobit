@@ -30,7 +30,7 @@ export const ProblemDetails = ({problem}:{problem:any}) => {
             console.log(data)
             setShowDescription(false)
             setShowSubmissions(true);
-            setSubmissionsDetails(prev=>[...prev, data]);
+            setSubmissionsDetails(prev=>[data, ...prev]);
         })
     }, [])
 
@@ -67,16 +67,16 @@ export const ProblemDetails = ({problem}:{problem:any}) => {
     {showSubmissions && <div className="overflow-y-scroll h-full">
         {submissionsDetails.map((submission:any, idx:number)=>{
             const createdAt = new Date(submission.createdAt);
-            return <div key={submission.id + idx} className={"text-white p-2 border border-[#383839]"}>
-               <div className="flex min-w-max items-center gap-20">
+            return <div key={submission.id + idx} className={"text-white p-2 border border-[#383839] hover:cursor-pointer"}>
+               <div className="flex w-max items-center gap-20 justify-between">
                     <div className="min-w-max">
                         <div className={submission.status === "Error"?"text-red-500":"text-green-400" + " text-sm"}>{submission.status}</div>
                         <div className="text-xs text-gray-400">{createdAt.toDateString() + " " + createdAt.toLocaleTimeString()}</div>
                     </div>
                     <div className="capitalize text-sm text-gray-300  w-16 min-w-max">
-                        <span className=" bg-gray-700 px-2 py-0.5 border border-[#383839] rounded-lg">{submission.language}</span></div>
-                    <Button variant={"link"} className="text-gray-300 border border-[#383839] items-end">View details</Button>
-               </div>
+                        <span className=" bg-gray-700 px-2 py-0.5 border border-[#383839] rounded-lg">{submission.language}</span>
+                    </div>               
+                 </div>
             </div>
         })}
      </div>}
