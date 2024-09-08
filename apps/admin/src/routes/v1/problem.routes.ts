@@ -10,6 +10,7 @@ problemRouter.get("/ping", (_: Request, res: Response)=>{
     return res.status(StatusCodes.OK).send("[ProblemController]: pong");
 })
 
+// Used by Client
 problemRouter.get("/:name([a-zA-Z]+)", async (req: Request, res: Response, next: NextFunction) => {
     try{
         const name = req.params.name;
@@ -23,6 +24,8 @@ problemRouter.get("/:name([a-zA-Z]+)", async (req: Request, res: Response, next:
         if(!problem){
             throw new ApiError(`Problem not found with title=${name}`, StatusCodes.NOT_FOUND);
         }
+
+        problem.testCases = problem.testCases.slice(0, 3);
 
         return res.status(StatusCodes.OK).json({
             success: true,
@@ -38,6 +41,7 @@ problemRouter.get("/:name([a-zA-Z]+)", async (req: Request, res: Response, next:
     }
 })
 
+// Used by Internal services
 problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try{
         const id = req.params.id;
@@ -45,6 +49,11 @@ problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction
         const problem = await db.problem.findFirst({
             where: {
                 id: id,
+            },
+            select:{
+                timeLimit: true,
+                codestubs: true,
+                testCases: true,
             }
         })
 
@@ -68,7 +77,15 @@ problemRouter.get("/:id", async (req: Request, res: Response, next: NextFunction
 
 problemRouter.get("/", async (_req: Request, res: Response, next: NextFunction) => {
     try{
-        const problems = await db.problem.findMany();
+        const problems = await db.problem.findMany({
+            select: {
+                id: true,
+                createdAt: true,
+                updatedAt: true,
+                difficulty: true,
+                title: true,
+            }
+        });
 
         return res.status(StatusCodes.OK).json({
             success: true,
