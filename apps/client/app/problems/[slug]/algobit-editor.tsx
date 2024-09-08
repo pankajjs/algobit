@@ -7,6 +7,7 @@ import { Test } from "./testcase"
 import { CodeMirrorEditor } from "./codemirror-editor"
 import { UserSnippetContext, UserSnippetStatus } from "./UserSnippetContext"
 import { useState } from "react"
+import { SubmissionResponseContext } from "./SubmissionResponseContext"
 
 export const AlgobitEditor = ({problem}:{problem:any}) => {
 
@@ -15,11 +16,12 @@ export const AlgobitEditor = ({problem}:{problem:any}) => {
         problemId: "",
         code: ""
     });
-
-    const contextValue =  {userSnippetStatus, setUserSnippetStatus}
+    
+    const [isSubmissionResponse, setIsSubmissionResponse] = useState(false);
 
     // @ts-ignore
-    return  <UserSnippetContext.Provider value={contextValue}>
+    return  <UserSnippetContext.Provider value={{userSnippetStatus, setUserSnippetStatus}}>
+        <SubmissionResponseContext.Provider value={{isSubmissionResponse, setIsSubmissionResponse}}>
         <div className="min-h-screen bg-[#252a31]">
         <Header/>
         <ResizablePanelGroup
@@ -45,5 +47,6 @@ export const AlgobitEditor = ({problem}:{problem:any}) => {
         </ResizablePanel>
         </ResizablePanelGroup>
         </div>
+        </SubmissionResponseContext.Provider>
     </UserSnippetContext.Provider>
 }
