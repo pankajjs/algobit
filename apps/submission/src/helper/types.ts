@@ -16,6 +16,20 @@ export type ResponseJobPayload = {
     error?: string;
 }
 
+export type SubmissionResponsePayload = {
+    code: string,
+    createdAt: Date,
+    id: string,
+    language: string,
+    problemId: string,
+    status: string,
+    userId: string
+    error?: string,
+    expectedOutput?:string,
+    input?: string[] | string,
+    output?: string[] | string
+}
+
 export class ApiError extends Error {
     statusCode: number;
     details?: unknown;
