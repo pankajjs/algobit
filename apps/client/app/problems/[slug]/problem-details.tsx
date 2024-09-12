@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { Suspense, useCallback, useContext, useEffect, useState } from "react";
 import { SubmissionResponseContext } from "./SubmissionResponseContext";
 
-const Submission_Service_Api = "http://localhost:3002"
+const Submission_Service_Api = "http://localhost:5003"
 
 const getUserSubmission = async (userId: string) => {
     try{

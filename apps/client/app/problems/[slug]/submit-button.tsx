@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { SubmissionResponseContext } from "./SubmissionResponseContext";
 
-const Submission_Service_Api = "http://localhost:3002"
+const Submission_Service_Api = "http://localhost:5003"
 
 export const Submit = ()=>{
     const {userSnippetStatus} = useContext(UserSnippetContext);
