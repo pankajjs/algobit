@@ -62,7 +62,6 @@ const worker = new Worker(
                     error: submission.error??undefined,
                 }
             }
-
             await sendResponse(response, false);
         },
         {

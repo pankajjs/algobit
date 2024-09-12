@@ -1,4 +1,4 @@
-import  { Status } from "@prisma/client";
+import  { Status } from "@prisma/client/submission";
 
 export const getStatus = (status: string)=>{
     if(status == "Success"){    

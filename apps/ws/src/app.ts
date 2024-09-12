@@ -27,15 +27,13 @@ const io = new Server(server, {
 io.on("connection", (socket)=>{
     socket.on("user_joined", (data)=>{
         const userId = data;
-        console.log("userId: ", userId);
-
         redis.set(userId, socket.id)
         redis.set(socket.id, userId);
+        console.log("User joined", userId, socket.id)
     })
   
     socket.on("disconnect", async () => {
         const userId = await redis.get(socket.id);
-
         if (userId) {
             redis.del(userId);
             redis.del(socket.id);
@@ -48,19 +46,18 @@ app.post("/submission-response", async (req:Request<{}, {}, any, {run:boolean}>,
     try {
         const run = req.query.run;
         const data = JSON.parse(req.body);
-        
+
         let id:string;
         let event:string;
 
-        if(run){
+        if(run !== undefined && run === true){
             id = data.id;
             event = "run-response";
         }else{
             id = data.userId;
             event = "submission-response";
         }
-        
-        console.log(data, run, id);
+
         const socketId = await redis.get(id);
         
         if(!socketId){
