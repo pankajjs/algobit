@@ -1,81 +1,86 @@
-# Turborepo starter
+# Algobit
 
-This is an official starter Turborepo.
+## Table of Contents
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Services](#running-the-services)
+- [Demo](#demo)
 
-## Using this example
+## Project Structure
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+The repository is organized as follows:
+```
+algobit/
+│
+├── admin/
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+│
+├── executor/
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+│
+├── submission/
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+│
+├── ws/
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+│
+└── shared/   (optional - for shared resources)
 ```
 
-## What's inside?
+Each microservice is located in its own directory under the apps folder and includes its source code, dependencies (package.json), and a README file with specific details about the service.
 
-This Turborepo includes the following packages/apps:
 
-### Apps and Packages
+## Getting Started
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+To get started with Algobit, fork the repository and clone it to your local machine:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```bash
+git clone https://github.com/yourusername/algobit.git
+cd algobit
 ```
 
-### Develop
+## Prerequisites
+Before running the microservices, ensure you have the following software installed and running locally:
 
-To develop all apps and packages, run the following command:
+    1. MongoDB: Used as the primary database for storing data.
+    2. Redis: Utilized for caching and message brokering.
+    3. Docker: Recommended for containerizing and running the microservices and other dependencies consistently across different environments.
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+## Installation
+Each microservice requires its dependencies to be installed. Navigate to each microservice's directory and install the dependencies using npm:
 
 ```
-cd my-turborepo
-npx turbo login
+cd apps/admin && npm install
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Environment Variables
+Each microservice has its own .env file where environment-specific configurations, such as database connections and API keys, can be set.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+#### Setup Instruction
+Navigate to each microservice:
+    
+##### 1. copy the `.env.sample` file to `.env`
 
 ```
-npx turbo link
+cp .env.sample .env
 ```
+##### 2. Open the .env file and replace the placeholder values with actual configuration settings as per your environment.
+##### 3. Save the .env file. The service will now use these settings when running.
 
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Running the Services
+To run a microservice, navigate to its directory and start the service:
+```
+cd apps/admin && npm run dev
+```
+# Demo
+For detailed instructions on testing the WebSocket connection and submission flow, refer to the [demo.md](demo.md) file.
