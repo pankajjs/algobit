@@ -8,12 +8,19 @@ export type RequestJobPayload = {
 }
 
 export type ResponseJobPayload = {
-    id: string,
-    status: string;
-    input?: string[] | string;
-    output?: string[] | string;
-    expectedOutput?: string;
-    error?: string;
+    id: string;
+    status: Status;
+    error: string | null;
+    output?: string[];
+    expectedOutput?: string[];
+    input?: string[];
+};
+
+
+export enum Status {
+    Success= "Success",
+    WA="WA",
+    Error="Error"
 }
 
 export type SubmissionResponsePayload = {
@@ -23,6 +30,8 @@ export type SubmissionResponsePayload = {
     problemId: string,
     userId: string
 } & ResponseJobPayload;
+
+ export type Task =  "Run"|"Submit"
 
 export class ApiError extends Error {
     statusCode: number;

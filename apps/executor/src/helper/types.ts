@@ -7,41 +7,53 @@ export type RequestJobPayload = {
 
 export type ResponseJobPayload = {
     id: string;
-    status: string;
-    input?: string[] | string;
-    output?: string[] | string;
-    expectedOutput?: string | string[];
-    error?: string;
+    status: Status;
+    error: string | null;
+    output?: string[];
+    expectedOutput?: string[];
+    input?: string[];
+};
+
+export enum Status {
+    Success= "Success",
+    WA="WA",
+    Error="Error"
 }
 
-export class ErrorResponse {
-    error: string;
-    status: string;
-    constructor(error: string, status: string){
-        this.error = error;
-        this.status = status;
-    }
-}
+// export class ErrorResponse {
+//     error: string | null;
+//     status: string;
+//     testCases: number[];
+//     output: string[];
+//     expectedOutput: string[];
+//     constructor(status: string, error: string | null, testCases: number[], output: string[], expectedOutput: string[]){
+//         this.status = this.status;
+//         this.error = error;
+//         this.testCases = testCases;
+//         this.expectedOutput = expectedOutput;
+//         this.output = output;
+//     }
+// }
 
-export class SuccessResponse { 
-    status: string;
-    constructor(status: string){
-        this.status = status;
-    }
-}
+// export class SuccessResponse { 
+//     status: string;
+//     constructor(status: string){
+//         this.status = status;
+//     }
+// }
 
-export class WAResponse {
-    testCases: number[];
-    output: string[];
-    expectedOutput: string[];
-    status: string;
-    constructor(testCases: number[], output: string[], expectedOutput: string[]){
-        this.status = "WA";
-        this.testCases = testCases;
-        this.expectedOutput = expectedOutput;
-        this.output = output;
-    }
-}
+// export class WAResponse {
+//     testCases: number[];
+//     output: string[];
+//     expectedOutput: string[];
+//     status: string;
+//     constructor(testCases: number[], output: string[], expectedOutput: string[]){
+//         this.status = "WA";
+//         this.testCases = testCases;
+//         this.expectedOutput = expectedOutput;
+//         this.output = output;
+//     }
+// }
 
 export type OutputStream = {
     stderr: string,

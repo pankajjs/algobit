@@ -2,8 +2,8 @@ import { fetchProblemDetails } from "../api/fetchproblem";
 import { codeExecutorFactory } from "../code_executor/factory";
 import { responseQueue } from "../queue/response_queue";
 import { RUN_REQUEST_JOB, RUN_RESPONSE_JOB, SUBMISSION_RESPONSE_JOB } from "./constants";
-import { createResponse } from "./createResponse";
-import { evaluateExecutionResponse } from "./evaluateOutput";
+import { createJobResponsePayload } from "./createResponse";
+import { evaluateExecutionOutput } from "./evaluateOutput";
 import { parsedTestCases } from "./parsed_testcase";
 import { publishJob } from "./publisher";
 import { RequestJobPayload } from "./types";
@@ -46,9 +46,12 @@ export const requestQueueJobHandler = (requestJobName: string, payload: RequestJ
             
             console.log(outputStream);
 
-            const evaluationResponse = evaluateExecutionResponse(outputStream, output);
+            const evaluationStatus = evaluateExecutionOutput(outputStream, output);
 
-            const jobPayload = createResponse(evaluationResponse, problem.testCases, payload.id);
+            const jobPayload = createJobResponsePayload({
+                id: payload.id, testCases: problem.testCases, outputStream, status: evaluationStatus,
+                responseJobName,
+            });
            
             console.log(jobPayload);
 

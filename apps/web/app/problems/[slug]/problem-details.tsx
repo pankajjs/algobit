@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { socket } from "@/socket";
 import axios from "axios";
@@ -110,16 +109,34 @@ export const ProblemDetails = ({problem}:{problem:any}) => {
                             {submissionDetails.error && <div className="text-sm text-red-500 border p-2 mt-5 border-gray-500 bg-[#2f2f30] rounded-md">{submissionDetails.error}</div>}
                             {submissionDetails.status === "WA" && <div className="text-white p-2 text-sm bg-[#2f2f30] border border-gray-500 mt-5 rounded-md flex flex-col gap-2">
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label>Input</Label>
-                                        <Input onChange={()=>{}} className="border-gray-700" value={submissionDetails.input.split("\n").join(" ")}/>
+                                    <Label>Input</Label>
+                                    {
+                                        Array<string>(submissionDetails.input).map((tc:string, idx:number)=>{
+                                            return <pre key={idx} onChange={()=>{}} className="border-gray-700 border rounded-md px-4 py-2">
+                                                {tc}
+                                            </pre>
+                                        })
+                                    }
                                 </div>
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label>Output</Label>
-                                        <Input onChange={()=>{}} className="border-gray-700" value={submissionDetails.output}/>
+                                    <Label>Output</Label>
+                                    {
+                                        Array<string>(submissionDetails.output).map((tc:string, idx:number)=>{
+                                            return <pre key={idx} onChange={()=>{}} className="border-gray-700 border rounded-md px-4 py-2">
+                                            {tc}
+                                            </pre>
+                                        })
+                                    }
                                 </div>
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label>Expected Output</Label>
-                                        <Input onChange={()=>{}} className="border-gray-700" value={submissionDetails.expectedOutput}/>
+                                    <Label>Expected Output</Label>
+                                    {
+                                        Array<string>(submissionDetails.expectedOutput).map((tc:string, idx:number)=>{
+                                            return <pre key={idx} onChange={()=>{}} className="border-gray-700 border rounded-md px-4 py-2">
+                                            {tc}
+                                             </pre>
+                                        })
+                                    }
                                 </div>
                             </div>}
                     </div>}

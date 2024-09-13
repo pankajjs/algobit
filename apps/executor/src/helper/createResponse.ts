@@ -1,27 +1,74 @@
-import { ErrorResponse, ResponseJobPayload, SuccessResponse, TestCases, WAResponse } from "./types";
+import { RUN_RESPONSE_JOB } from "./constants";
+import { OutputStream, ResponseJobPayload, Status, TestCases, } from "./types";
 
-export const createResponse = (arg: WAResponse | SuccessResponse | ErrorResponse, testCases: TestCases, id: string): ResponseJobPayload => {
-    if(arg instanceof SuccessResponse){
+export type CreateJobResponsePayload = {
+    status: Status,
+    id: string,
+    outputStream: OutputStream,
+    testCases: TestCases,
+    responseJobName: string
+}
+
+export const createJobResponsePayload = ({
+id, outputStream, status, testCases, responseJobName
+}:CreateJobResponsePayload): ResponseJobPayload => {
+
+    console.log(testCases)
+    const executionOutputList = outputStream.stdout.trim().split("\n");
+
+    if(status === Status.Success){
+        const successTestCases = testCases.slice(0, 3)
+        const input = successTestCases.map(tc=>tc.input);
+        const output = successTestCases.map(tc=>tc.input);
+
         return {
-            id,
-            status: arg.status,
-            input: testCases.slice(0, 3).map(tc=>tc.input),
-            output: testCases.slice(0, 3).map(tc=>tc.output)
+            id: id, 
+            error: null,
+            input,
+            output,
+            expectedOutput: output,
+            status,
         }
     }
-    else if(arg instanceof WAResponse){
-        return {
-            id,
-            status: arg.status,
-            input: testCases[arg.testCases[0]].input,
-            output: arg.output[0],
-            expectedOutput: arg.expectedOutput[0],
+
+    if(status === Status.WA){
+
+        const expectedOutputList = testCases.map(tc=>tc.output);
+
+        if(responseJobName === RUN_RESPONSE_JOB){
+            return {
+                error: null, 
+                expectedOutput: expectedOutputList,
+                id: id,
+                input: testCases.map(tc=>tc.input),
+                output: executionOutputList,
+                status,
+            }
         }
-    }else {
+
+        let  WATestCase = -1;
+
+        executionOutputList.forEach((v, i)=>{
+            if(v != expectedOutputList[i]){
+                WATestCase = i;
+                return;
+            }
+        })
+
+        const input = [testCases[WATestCase].input]
         return {
+            error: null, 
+            expectedOutput: [expectedOutputList[WATestCase]],
             id,
-            status: arg.status,
-            error: arg.error,
+            input,
+            output: [executionOutputList[WATestCase]],
+            status,
         }
+    }
+
+    return {
+        error: outputStream.stderr,
+        id: id,
+        status,
     }
 } 
