@@ -42,22 +42,23 @@ io.on("connection", (socket)=>{
     });
 })
 
-app.post("/submission-response", async (req:Request<{}, {}, any, {run:boolean}>, res, next) => {
+app.post("/submission-response", async (req:Request, res, next) => {
     try {
-        const run = req.query.run;
+        const task = req.query.task;
         const data = JSON.parse(req.body);
 
-        let id:string;
-        let event:string;
-
-        if(run !== undefined && run === true){
+        
+        let id:string = data.userId;
+        let event:string = "submission-response";
+        console.log(id, event)
+        
+        if(task === "Run"){
             id = data.id;
             event = "run-response";
-        }else{
-            id = data.userId;
-            event = "submission-response";
         }
 
+        console.log(id, event)
+        
         const socketId = await redis.get(id);
         
         if(!socketId){
