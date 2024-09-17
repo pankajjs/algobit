@@ -1,7 +1,11 @@
 import express, { urlencoded } from "express";
-import { errorHandler } from "./helper/middleware";
 import { StatusCodes } from "http-status-codes";
-import { apiRouter } from "./routes";
+import logger from "@repo/logger";
+import apiRouter from "./routes";
+import { errorHandler } from "./helper";
+
+logger.defaultMeta = {service: "admin-service"};
+global.logger = logger
 
 const app = express();
 
@@ -16,4 +20,4 @@ app.get("/healthcheck", (_req, res) => {
 
 app.use(errorHandler);
 
-export { app }
+export default app;

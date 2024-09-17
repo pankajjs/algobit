@@ -7,7 +7,7 @@ import TurndownService from "turndown";
  * sanitize html with allowed tags
  * converts sanitized html back to markdown
  */
-export const sanitizedMarkdown = (markdownContent: string) => {
+export default function sanitizedMarkdown(markdownContent: string) {
 
     const turndownService = new TurndownService();
     const htmlContent = marked.parse(markdownContent) as string;

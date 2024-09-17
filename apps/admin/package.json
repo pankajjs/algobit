@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "tsc -b",
-    "start": "node dist/index.js",
+    "dev": "export NODE_ENV='development' && tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "tsc && export NODE_ENV='production' && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "tsx src/helper/seed.ts",
-    "db:generate":"npx prisma generate"
+    "db:generate": "npx prisma generate",
+    "db:seed": "tsx src/db/seed.ts"
   },
   "author": "",
   "license": "ISC",
@@ -21,12 +21,12 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0",
+    "@repo/error": "*",
+    "@repo/logger": "*",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
     "marked": "^13.0.3",
-    "prisma": "^5.17.0",
     "sanitize-html": "^2.13.0",
     "turndown": "^7.2.0",
     "zod": "^3.23.8"

@@ -1,8 +1,9 @@
-import { app } from "./app";
-import { ServerConfig } from "./config/config";
+import ServerConfig from "./config";
+import app from "./app";
 
 const PORT = ServerConfig.PORT;
 
 app.listen(PORT, ()=>{
-    console.log(`Admin service is running on port=${PORT}`);
+    logger.info(`Admin service is running on port=${PORT}`);
 })
+
