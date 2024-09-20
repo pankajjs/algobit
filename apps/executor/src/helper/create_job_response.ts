@@ -11,7 +11,7 @@ id, outputStream, status, testCases, jobName
     if(status === Status.Success){
         const successTestCases = testCases.slice(0, 3)
         const input = successTestCases.map(tc=>tc.input);
-        const output = successTestCases.map(tc=>tc.input);
+        const output = successTestCases.map(tc=>tc.output);
 
         return {
             id: id, 
