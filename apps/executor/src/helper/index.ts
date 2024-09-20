@@ -6,7 +6,7 @@ import redisConnection from "./redis";
 import parsedTestCases from "./parsed_testcase";
 import evaluateExecutionOutput from "./evaluate_output";
 import createJobResponsePayload from "./create_job_response";
-import submissionJobHandler from "./submisson_job_handler";
+import submissionJobHandler from "./job_handler";
 import docker from "./docker";
 
 export {

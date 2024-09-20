@@ -1,24 +1,35 @@
-import { SubmissionRequestJobPayload } from "@repo/types";
+import { Job, RunRequestJobPayload, SubmissionRequestJobPayload } from "@repo/types";
 import { fetchProblemDetails } from "../api";
 import ServerConfig from "../config";
 import parsedTestCases from "./parsed_testcase";
 import { codeExecutorFactory } from "../code_executor";
 import evaluateExecutionOutput from "./evaluate_output";
 import createJobResponsePayload from "./create_job_response";
-import { SUBMISSION_RESPONSE_JOB } from "../constants";
+import { RUN_RESPONSE_JOB, SUBMISSION_RESPONSE_JOB } from "../constants";
 import publishJob from "./publisher";
 import { responseQueue } from "../queue";
 
-export default async function submissionJobHandler(payload:SubmissionRequestJobPayload) {
+export default async function jobHandler(job:Job) {
     try{
 
-        const {problemId, language, code} = payload;
+        const payload = job.data as RunRequestJobPayload | SubmissionRequestJobPayload;
+
+        const {problemId, language, code, id} = payload;
+
+        console.log(payload);
 
         const problem = await fetchProblemDetails(`${ServerConfig.ADMIN_SERVICE_URI}/api/v1/problems/${problemId}`);
         
         if(!problem) {
             return;
         };
+
+        let responseJobName: string = SUBMISSION_RESPONSE_JOB;
+
+        if(job.name !== responseJobName){
+            responseJobName = RUN_RESPONSE_JOB;
+            problem.testCases = problem.testCases.slice(0, 3);
+        }
 
         const {input, output} = parsedTestCases(problem.testCases);
 
@@ -39,12 +50,14 @@ export default async function submissionJobHandler(payload:SubmissionRequestJobP
         const evaluationStatus = evaluateExecutionOutput(outputStream, output);
 
         const jobPayload = createJobResponsePayload({
-            id: payload.id, testCases: problem.testCases, outputStream, status: evaluationStatus,
-            jobName: SUBMISSION_RESPONSE_JOB,
+            id, testCases: problem.testCases, outputStream, status: evaluationStatus,
+            jobName: responseJobName,
         });
 
+        console.log(jobPayload);
+
         await publishJob({
-            name: SUBMISSION_RESPONSE_JOB ,
+            name: responseJobName ,
             queue: responseQueue,
             payload: jobPayload,
         })

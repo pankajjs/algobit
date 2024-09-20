@@ -6,7 +6,6 @@ export default function createJobResponsePayload({
 id, outputStream, status, testCases, jobName
 }:CreateJobResponsePayload): RunResponseJobPayload {
 
-    console.log(testCases)
     const executionOutputList = outputStream.stdout.trim().split("\n");
 
     if(status === Status.Success){

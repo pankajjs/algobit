@@ -27,7 +27,7 @@ export const Run = () => {
         
         socket.emit("user_joined", userId)
 
-        const response = await axios.post(`${Submission_Service_Api}/api/v1/submissions/run`, {
+        const response = await axios.post(`${Submission_Service_Api}/api/v1/run`, {
             userId: userId,
             problemId: userSnippetStatus.problemId,
             code: userSnippetStatus.code,
