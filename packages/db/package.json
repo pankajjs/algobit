@@ -6,6 +6,7 @@
   "types": "./dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "5.19.1",
     "prisma": "^5.19.1"
   },
   "scripts": {
