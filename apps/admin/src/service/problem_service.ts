@@ -1,9 +1,7 @@
 
-import { IProblemDao } from "../dao";
 import { NotFoundError } from "@repo/error";
 import { sanitizedMarkdown } from "../helper";
-import IProblemService from "./iproblem_service";
-import { IProblem } from "../types";
+import { IProblem, IProblemDao, IProblemService } from "@repo/types";
 
 export default class ProblemService implements IProblemService {
     private problemDao: IProblemDao;

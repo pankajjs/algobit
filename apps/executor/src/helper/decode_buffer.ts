@@ -1,7 +1,7 @@
-import { DATA_LENGTH_BYTE_SIZE, STDERR_STREAM_TYPE, STDOUT_STREAM_TYPE, STREAM_HEADER_SIZE } from "./constants";
-import { OutputStream } from "./types";
+import { OutputStream } from "@repo/types";
+import { DATA_LENGTH_BYTE_SIZE, STDERR_STREAM_TYPE, STDOUT_STREAM_TYPE, STREAM_HEADER_SIZE } from "../constants";
 
-const getOutputStream = (buffer: Buffer): OutputStream => {
+export default function getOutputStream(buffer: Buffer): OutputStream {
     // keeps track of position in buffer while parsing
     let offset = 0;
 
@@ -28,8 +28,4 @@ const getOutputStream = (buffer: Buffer): OutputStream => {
     }
 
     return outputStream;
-}
-
-export {
-    getOutputStream
 }

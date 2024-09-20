@@ -11,12 +11,9 @@ import { SubmissionResponseContext } from "./SubmissionResponseContext";
 const Submission_Service_Api = "http://localhost:5003"
 
 const getUserSubmission = async (userId: string) => {
-    try{
-        const response = await axios.get(`${Submission_Service_Api}/api/v1/submissions?userId=${userId}`);
-        return response.data.data;
-    }catch(error){
-        console.log(error);
-    }
+    const response = await axios.get(`${Submission_Service_Api}/api/v1/submissions?userId=${userId}`);
+    if(!response.data.success) return;
+    return response.data.submissions;
 }
 
 export const ProblemDetails = ({problem}:{problem:any}) => {

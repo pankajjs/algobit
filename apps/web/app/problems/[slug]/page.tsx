@@ -7,8 +7,8 @@ const ADMIN_SERVICE_API = "http://localhost:5000"
 
 const getProblem = async (title: string) => {
     const response = await axios.get(`${ADMIN_SERVICE_API}/api/v1/problems/${title}`);
-    if(!response.data.success) return;
-    return response.data.data;
+    if(!response.data.success) return null;
+    return response.data.problem;
 }
 
 export default async function Problem (

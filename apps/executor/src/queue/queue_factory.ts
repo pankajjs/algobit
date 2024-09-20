@@ -1,14 +1,6 @@
-import { ConnectionOptions, Queue } from "bullmq"        
+import { CreateQueue, Queue } from "@repo/types";
 
-export type CreateQueue = {
-    name: string,
-    options: ConnectionOptions,
-}
 
-const createQueue = ({name, options}: CreateQueue) => {
+export default function createQueue({name, options}: CreateQueue){
     return new Queue(name, { connection: options})
-}
-
-export {
-    createQueue
 }

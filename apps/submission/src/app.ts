@@ -1,7 +1,11 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import { ApiRoutes } from "./routes";
-import { errorHandler } from "./helper/middleware";
 import cors from '@fastify/cors'
+import logger from "@repo/logger";
+import ApiRoutes from "./routes";
+import { errorHandler } from "./helper";
+
+logger.defaultMeta = {service: "request-service"};
+global.logger = logger
 
 async function app(fastify: FastifyInstance, _options: FastifyPluginOptions) {
     await fastify.register(cors, {
@@ -11,6 +15,4 @@ async function app(fastify: FastifyInstance, _options: FastifyPluginOptions) {
     fastify.setErrorHandler(errorHandler)
 }
 
-export  {
-    app
-}
+export default app;

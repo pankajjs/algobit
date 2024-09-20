@@ -1,25 +1,14 @@
-import { Queue } from "bullmq";
-import { ResponseJobPayload } from "./types";
+import { PublishJobParams } from "@repo/types";
 
-export type PublishJobParams = {
-    name: string,
-    payload: ResponseJobPayload,
-    priority?: number,
-    queue: Queue
-}
-
-const publishJob = async (params: PublishJobParams) => {
+export default async function publishJob(params: PublishJobParams) {
     try{
         await params.queue.add(
             params.name,
             params.payload, 
             { priority: params.priority }
         );
-    }catch(error){
+    }catch(error: any){
+        logger.error(`Error while publishing ${params.name} job: ${error.message}`);
         throw error;
     }
-}
-
-export {
-    publishJob,
 }

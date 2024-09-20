@@ -1,10 +1,8 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
-import { SubmissionRoutes } from "./submission_routes";
+import SubmissionRoutes from "./submission";
+import RunRoutes from "./run";
 
-async function V1Routes(fastify: FastifyInstance, _option: FastifyPluginOptions){
+export default async function V1Routes(fastify: FastifyInstance, _option: FastifyPluginOptions){
    fastify.register(SubmissionRoutes, {prefix:"/submissions"});
-}
-
-export {
-    V1Routes
+   fastify.register(RunRoutes, {prefix: "/run"});
 }

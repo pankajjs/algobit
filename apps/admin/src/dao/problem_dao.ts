@@ -1,6 +1,5 @@
-import {problem} from "../model"
-import { IProblem } from "../types";
-import IProblemDao from "./iproblem_dao";
+import { IProblem, IProblemDao } from "@repo/types";
+import { problem } from "../model"
 
 export default class ProblemDao implements IProblemDao {
 

@@ -1,6 +1,6 @@
+import { IProblemService } from "@repo/types";
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { IProblemService } from "../service";
 
 export default class ProblemController {
     private problemService: IProblemService;

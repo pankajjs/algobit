@@ -1,10 +1,8 @@
 import { Redis } from "ioredis";                
-import { ServerConfig } from "../config/server_config";
+import ServerConfig from "../config";
 
-const redis = new Redis(ServerConfig.REDIS_URI, {
+const redisConnection = new Redis(ServerConfig.REDIS_URI, {
     maxRetriesPerRequest: null
 })
 
-export {
-    redis
-}
+export default redisConnection;

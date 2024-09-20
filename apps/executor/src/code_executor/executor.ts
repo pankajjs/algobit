@@ -1,17 +1,14 @@
-import { TIME_LIMIT_SECOND } from "../helper/constants";
-import { containerFactory } from "../helper/container_factory";
-import { getOutputStream } from "../helper/decode_buffer";
-import { pullImage } from "../helper/pull_image";
-import { ExecuteCodeParam, OutputStream } from "../helper/types";
+import { ExecuteCodeParam, OutputStream } from "@repo/types";
+import { TIME_LIMIT_SECOND } from "../constants";
+import { pullDockerImage, createDockerContainer, getOutputStream } from "../helper";
 
-
-export const executeCodeInContainer = async ({image, commands, timeLimit, languageTimeLimit}: ExecuteCodeParam): Promise<OutputStream> => {
+export default async function executeCodeInDockerContainer({image, commands, timeLimit, languageTimeLimit}: ExecuteCodeParam): Promise<OutputStream> {
    try{
         const streamChunks: Buffer[] = [];
         
-        await pullImage(image);
+        await pullDockerImage(image);
 
-        const container = await containerFactory(image, commands);
+        const container = await createDockerContainer(image, commands);
 
         await container.start();
 
@@ -49,7 +46,8 @@ export const executeCodeInContainer = async ({image, commands, timeLimit, langua
             });
 
         })
-   }catch(error){
-    throw error;
+   }catch(error: any){
+        logger.error(`Error while executing code in docker container: ${error.message}`);
+        throw error;
    }
 }

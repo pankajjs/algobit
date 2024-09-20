@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@repo/db":"*",
+    "@repo/types":"*",
     "@repo/error": "*",
     "@repo/logger": "*",
     "dotenv": "^16.4.5",

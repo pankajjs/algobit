@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { IProblemDao, ProblemDao } from "../../dao";
-import { IProblemService, ProblemService } from "../../service";
+import { ProblemDao } from "../../dao";
 import ProblemController from "../../controller/problem_controller";
-import { CreateProblem, UpdateProblem, Validator } from "../../validator";
+import { CreateProblem, IProblemDao, IProblemService, UpdateProblem } from "@repo/types";
+import { ProblemService } from "../../service";
+import { Validator } from "../../validator";
 
 const problemRouter = Router();
 const problemDao:IProblemDao = new ProblemDao()

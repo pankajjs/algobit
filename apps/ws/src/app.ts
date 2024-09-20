@@ -1,10 +1,14 @@
-import express, { Request } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { createServer } from "http";
 import StatusCodes from "http-status-codes";
-import { errorHandler } from "./helper/middleware";
-import { ApiError } from "./helper/types";
-import { redis } from "./helper/redis";
 import { Server } from "socket.io";
+import { errorHandler, redisConnection } from "./helper";
+import logger from "@repo/logger";
+import { Task } from "@repo/types";
+import { NotFoundError } from "@repo/error";
+
+logger.defaultMeta = {service: "websocket-service"};
+global.logger = logger
 
 const app = express();
 
@@ -27,64 +31,59 @@ const io = new Server(server, {
 io.on("connection", (socket)=>{
     socket.on("user_joined", (data)=>{
         const userId = data;
-        redis.set(userId, socket.id)
-        redis.set(socket.id, userId);
-        console.log("User joined", userId, socket.id)
+        redisConnection.set(userId, socket.id)
+        redisConnection.set(socket.id, userId);
+        logger.info(`"User joined! userId:${userId} socketId:${socket.id}`);
     })
   
     socket.on("disconnect", async () => {
-        const userId = await redis.get(socket.id);
+        const userId = await redisConnection.get(socket.id);
         if (userId) {
-            redis.del(userId);
-            redis.del(socket.id);
+            redisConnection.del(userId);
+            redisConnection.del(socket.id);
         }
-        console.log("User disconnected. userId: ", userId, ", socketId: ", socket.id)
+        logger.info(`User disconnected! userId:${userId} socketId:${socket.id}`);
     });
 })
 
-app.post("/submission-response", async (req:Request, res, next) => {
+app.post("/response", async (req:Request, res: Response, next: NextFunction) => {
     try {
-        const task = req.query.task;
-        const data = JSON.parse(req.body);
+        const task = req.query.task as string;
+        const data = req.body;
 
-        
         let id:string = data.userId;
         let event:string = "submission-response";
-        console.log(id, event)
         
-        if(task === "Run"){
+        if(task === Task.RUN){
             id = data.id;
             event = "run-response";
         }
-
-        console.log(id, event)
         
-        const socketId = await redis.get(id);
+        const socketId = await redisConnection.get(id);
         
         if(!socketId){
-            throw new ApiError(`User not connected for userId ${data.userId}`, StatusCodes.NOT_FOUND);
+            throw new NotFoundError(`User not connected for userId:${data.userId}`);
         }
         
         const socket = io.sockets.sockets.get(socketId);
         
         if (!socket) {
-            throw new ApiError(`Socket connection not found for socketId ${socketId}`, StatusCodes.NOT_FOUND);
+            throw new NotFoundError(`Socket connection not found for socketId:${socketId}`);
         }
 
         socket.emit(event, data);
         
-        return res.status(StatusCodes.CREATED).send({
+        return res.status(StatusCodes.OK).send({
             success: true,
             message: "Successfully send submission response to user",
         });
         
-    } catch (error) {
+    } catch (error: any) {
+        logger.error(`Error while sending response to web socket client:${error.message}`);
         next(error);
     }
 });
 
 app.use(errorHandler);
 
-export {
-    server,
-}
+export default server;

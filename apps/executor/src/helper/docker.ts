@@ -1,7 +1,3 @@
 import Docker from "dockerode";
 
-const docker = new Docker();
-
-export { 
-    docker,
-} 
+export default new Docker();
