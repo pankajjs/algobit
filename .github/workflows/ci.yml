@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint:
-    name: Linting and formatting source code
+    name: Linting and formatting and Build
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
@@ -20,16 +20,6 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn format
       - run: yarn lint
-  build:
-    name: Building and testing source code
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: yarn install --frozen-lockfile
       - run: yarn build
   
     
