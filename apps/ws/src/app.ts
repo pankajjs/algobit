@@ -50,12 +50,9 @@ app.post("/response", async (req:Request, res: Response, next: NextFunction) => 
     try {
         const task = req.query.task as string;
         const data = req.body;
-        console.log(data);
         
         let id:string = data.id;
-        let event:string = "submission-response";
-        console.log(data);
-        logger.info(`${task} ${id} ${event}`);
+        let event:string = "submission-response";;
 
         if(task === Task.RUN){
             id = data.id;
@@ -73,7 +70,6 @@ app.post("/response", async (req:Request, res: Response, next: NextFunction) => 
         if (!socket) {
             throw new NotFoundError(`Socket connection not found for socketId:${socketId}`);
         }
-        
         socket.emit(event, data);
         
         return res.status(StatusCodes.OK).send({

@@ -8,7 +8,6 @@ export default async function RunRoutes(fastify: FastifyInstance, _option: Fasti
     fastify.post("/", async (req, res)=>{
         try{
             const body:any = req.body;
-            console.log(body);
 
             await publishJob({
                 name: RUN_REQUEST_JOB,

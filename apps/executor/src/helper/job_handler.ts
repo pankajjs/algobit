@@ -16,8 +16,6 @@ export default async function jobHandler(job:Job) {
 
         const {problemId, language, code, id} = payload;
 
-        console.log(payload);
-
         const problem = await fetchProblemDetails(`${ServerConfig.ADMIN_SERVICE_URI}/api/v1/problems/${problemId}`);
         
         if(!problem) {
@@ -42,19 +40,13 @@ export default async function jobHandler(job:Job) {
         }
 
         const updatedCode = codestub.startSnippet + "\n\n" + code + "\n\n" + codestub.endSnippet;
-        console.log(updatedCode)
         const outputStream = await codeExecutor.execute(updatedCode, input, problem.timeLimit);
-        
-        console.log(outputStream);
-
         const evaluationStatus = evaluateExecutionOutput(outputStream, output);
 
         const jobPayload = createJobResponsePayload({
             id, testCases: problem.testCases, outputStream, status: evaluationStatus,
             jobName: responseJobName,
         });
-
-        console.log(jobPayload);
 
         await publishJob({
             name: responseJobName ,

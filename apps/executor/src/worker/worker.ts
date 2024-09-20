@@ -7,7 +7,6 @@ const requestQueueWorker = new Worker(
         REQUEST_QUEUE,
         async (job: Job) => {
             try{
-                console.log(job.data)
                await jobHandler(job);
             }catch(error: any){
                 logger.error(`Error while handling ${job.name}: ${error.message}`);

@@ -25,31 +25,6 @@ const worker = new Worker(
                 return;
             }
 
-            // if(status === Status.WA){
-            //    submission = await db.submission.update({
-            //         where: {
-            //             id: job.data.id,
-            //         },
-            //         data: {
-            //             status: status,
-            //             expectedOutput: job.data.expectedOutput?.[0],
-            //             input: job.data.input?.[0],
-            //             output: job.data.output?.[0],
-            //         }
-            //     })
-              
-            // }else{
-            //     submission =  await db.submission.update({
-            //         where: {
-            //             id: job.data.id,
-            //         },
-            //         data: {
-            //             status: status,
-            //             error: job.data.error,
-            //         }
-            //     })
-            // }
-
             let response: SubmissionResponsePayload  = {
                 ...job.data,
                 code: submission.code,
@@ -59,8 +34,6 @@ const worker = new Worker(
                 problemId: submission.problemId,
                 userId: submission.userId,
             }
-
-            console.log(response)
             await sendResponse(response, Task.SUBMIT);
         },
         {
