@@ -1,19 +1,23 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { socket } from "@/socket";
+import { RunResponseContext } from "./RunResponseContext";
 
 export const Test = ({testCases}:{testCases:any})=>{
     const [showTestInput, setShowTestInput] = useState(false);
     const [showTestResult, setShowTestResult] = useState(false);
     const [testResult, setTestResult] = useState(null);
+    const {setIsRunResponse} = useContext(RunResponseContext);
+
 
     const handleRunResponse = useCallback((data: any) => {
         console.log(data)
         setShowTestInput(false)
         setShowTestResult(true);
         setTestResult(data);
+        setIsRunResponse(false)
     }, [])
 
     useEffect(() => {

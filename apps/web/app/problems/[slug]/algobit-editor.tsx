@@ -8,6 +8,7 @@ import { CodeMirrorEditor } from "./codemirror-editor"
 import { UserSnippetContext, UserSnippetStatus } from "./UserSnippetContext"
 import { useState } from "react"
 import { SubmissionResponseContext } from "./SubmissionResponseContext"
+import { RunResponseContext } from "./RunResponseContext"
 
 export const AlgobitEditor = ({problem}:{problem:any}) => {
 
@@ -18,10 +19,12 @@ export const AlgobitEditor = ({problem}:{problem:any}) => {
     });
     
     const [isSubmissionResponse, setIsSubmissionResponse] = useState(false);
+    const [isRunResponse, setIsRunResponse] = useState(false);
 
     // @ts-ignore
     return  <UserSnippetContext.Provider value={{userSnippetStatus, setUserSnippetStatus}}>
         <SubmissionResponseContext.Provider value={{isSubmissionResponse, setIsSubmissionResponse}}>
+        <RunResponseContext.Provider value={{isRunResponse, setIsRunResponse}}>
         <div className="min-h-screen bg-[#252a31]">
         <Header/>
         <ResizablePanelGroup
@@ -47,6 +50,7 @@ export const AlgobitEditor = ({problem}:{problem:any}) => {
         </ResizablePanel>
         </ResizablePanelGroup>
         </div>
+        </RunResponseContext.Provider>
         </SubmissionResponseContext.Provider>
     </UserSnippetContext.Provider>
 }
