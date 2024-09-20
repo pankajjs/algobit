@@ -7,7 +7,6 @@
     "build": "tsc",
     "start": "tsc && export NODE_ENV='production' && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:generate": "npx prisma generate",
     "db:seed": "tsx src/db/seed.ts"
   },
   "author": "",
@@ -21,6 +20,7 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
+    "@repo/db":"*",
     "@repo/error": "*",
     "@repo/logger": "*",
     "dotenv": "^16.4.5",

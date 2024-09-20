@@ -1,6 +1,5 @@
-import db, {DbClient} from "./db"
+import { db } from "@repo/db"
 
 export {
     db,
-    DbClient,
 }
