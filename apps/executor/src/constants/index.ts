@@ -22,3 +22,7 @@ export const TIME_LIMIT_SECOND: number = 1000;
 export const JAVA_TIME_LIMIT: number = 2;
 
 export const SUCCESS_STATUS_CODE = 200;
+
+export const PRINT_REGEX = /^\s*(print|System\.out\.print(?:ln)?|console\.log|puts|echo|printf?|fmt\.Print(?:ln|f)?)\s*\(?.+?\)?;?\s*$/gm;
+
+
