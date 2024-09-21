@@ -15,6 +15,7 @@ const requestQueueWorker = new Worker(
 	{
 		connection: redisConnection,
 		autorun: false,
+		concurrency: 5
 	},
 );
 
