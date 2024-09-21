@@ -9,7 +9,12 @@ import parsedTestCases from "./parsed_testcase";
 import { codeExecutorFactory } from "../code_executor";
 import evaluateExecutionOutput from "./evaluate_output";
 import createJobResponsePayload from "./create_job_response";
-import { PRINT_REGEX, RUN_RESPONSE_JOB, SUBMISSION_REQUEST_JOB, SUBMISSION_RESPONSE_JOB } from "../constants";
+import {
+	PRINT_REGEX,
+	RUN_RESPONSE_JOB,
+	SUBMISSION_REQUEST_JOB,
+	SUBMISSION_RESPONSE_JOB,
+} from "../constants";
 import publishJob from "./publisher";
 import { responseQueue } from "../queue";
 
@@ -48,10 +53,12 @@ export default async function jobHandler(job: Job) {
 			return;
 		}
 
-		const sanitizedCode = code.replace(PRINT_REGEX, '\n').replace(/\n\s*\n/g, '\n').trim();
-		
-		const updatedCode =
-			`${codestub.startSnippet}\n\n${sanitizedCode}\n\n${codestub.endSnippet}`;
+		const sanitizedCode = code
+			.replace(PRINT_REGEX, "\n")
+			.replace(/\n\s*\n/g, "\n")
+			.trim();
+
+		const updatedCode = `${codestub.startSnippet}\n\n${sanitizedCode}\n\n${codestub.endSnippet}`;
 
 		const outputStream = await codeExecutor.execute(
 			updatedCode,
@@ -60,7 +67,7 @@ export default async function jobHandler(job: Job) {
 		);
 
 		const evaluationStatus = evaluateExecutionOutput(outputStream, output);
-		
+
 		const jobPayload = createJobResponsePayload({
 			id,
 			testCases: problem.testCases,

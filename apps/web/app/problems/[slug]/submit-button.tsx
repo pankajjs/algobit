@@ -22,15 +22,12 @@ export const Submit = () => {
 		if (session.status === "authenticated") {
 			setIsSubmissionResponse(true);
 			socket.emit("user_joined", session.data.user.id);
-			await axios.post(
-				`${Submission_Service_Api}/api/v1/submissions/`,
-				{
-					userId: session.data.user.id,
-					problemId: userSnippetStatus.problemId,
-					code: userSnippetStatus.code,
-					language: userSnippetStatus.language,
-				},
-			);
+			await axios.post(`${Submission_Service_Api}/api/v1/submissions/`, {
+				userId: session.data.user.id,
+				problemId: userSnippetStatus.problemId,
+				code: userSnippetStatus.code,
+				language: userSnippetStatus.language,
+			});
 		} else {
 			// TODO: toast message
 			return;

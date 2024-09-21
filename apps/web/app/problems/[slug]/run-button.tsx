@@ -12,7 +12,6 @@ import { RunResponseContext } from "./RunResponseContext";
 import { LoadingSpinner } from "@/components/spinner";
 import { Submission_Service_Api } from "@/constants";
 
-
 export const Run = () => {
 	const { userSnippetStatus } = useContext(UserSnippetContext);
 	const { isRunResponse, setIsRunResponse } = useContext(RunResponseContext);
@@ -27,7 +26,7 @@ export const Run = () => {
 		} else {
 			userId = uniqid();
 		}
-		
+
 		socket.emit("user_joined", userId);
 
 		await axios.post(`${Submission_Service_Api}/api/v1/run`, {

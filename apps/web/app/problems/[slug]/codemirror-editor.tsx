@@ -9,7 +9,7 @@ import { languages } from "@codemirror/language-data";
 import { ChevronDown } from "lucide-react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { UserSnippetContext } from "./UserSnippetContext";
-import {LANGUAGE_LIST, LANGUAGES} from "../../../constants"
+import { LANGUAGE_LIST, LANGUAGES } from "../../../constants";
 
 let extensions = [
 	markdown({ base: markdownLanguage, codeLanguages: languages }),
