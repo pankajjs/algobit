@@ -1,7 +1,5 @@
-import {logger} from "@repo/logger"
+import type { logger } from "@repo/logger";
 
 declare global {
-    var logger: logger
+	var logger: logger;
 }
-
-export {}

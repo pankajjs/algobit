@@ -1,20 +1,25 @@
 {
-  "name": "@repo/db",
-  "version": "1.0.0",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "license": "MIT",
-  "dependencies": {
-    "@prisma/client": "5.19.1",
-    "prisma": "^5.19.1"
-  },
-  "scripts": {
-    "db:generate": "npx prisma generate",
-    "dev": "tsc -w",
-    "build": "tsc"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.2"
-  }
+	"name": "@repo/db",
+	"version": "1.0.0",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"license": "MIT",
+	"dependencies": {
+		"@prisma/client": "5.19.1",
+		"prisma": "^5.19.1"
+	},
+	"scripts": {
+		"db:generate": "npx prisma generate",
+		"dev": "tsc -w",
+		"build": "tsc",
+		"format:check": "biome format",
+		"lint:check": "biome lint",
+		"format": "biome format --write",
+    "lint": "biome lint --write"
+	},
+	"devDependencies": {
+		"@repo/biome-config": "*",
+		"typescript": "^5.6.2"
+	}
 }

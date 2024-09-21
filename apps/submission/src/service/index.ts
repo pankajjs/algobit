@@ -1,5 +1,3 @@
 import SubmissionService from "./submission";
 
-export {
-    SubmissionService,
-}
+export { SubmissionService };

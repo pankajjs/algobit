@@ -1,35 +1,40 @@
 {
-  "name": "admin",
-  "version": "1.0.0",
-  "main": "src/index.ts",
-  "scripts": {
-    "dev": "export NODE_ENV='development' && tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "tsc && export NODE_ENV='production' && node dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db:seed": "tsx src/db/seed.ts"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/sanitize-html": "^2.11.0",
-    "@types/turndown": "^5.0.5",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.2"
-  },
-  "dependencies": {
-    "@repo/db":"*",
-    "@repo/types":"*",
-    "@repo/error": "*",
-    "@repo/logger": "*",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "http-status-codes": "^2.3.0",
-    "marked": "^13.0.3",
-    "sanitize-html": "^2.13.0",
-    "turndown": "^7.2.0",
-    "zod": "^3.23.8"
-  }
+	"name": "admin",
+	"version": "1.0.0",
+	"main": "src/index.ts",
+	"scripts": {
+		"dev": "export NODE_ENV='development' && tsx watch src/index.ts",
+		"build": "tsc",
+		"start": "tsc && export NODE_ENV='production' && node dist/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"db:seed": "tsx src/db/seed.ts",
+		"format:check": "biome format",
+		"lint:check": "biome lint",
+		"format": "biome format --write",
+    "lint": "biome lint --write"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/sanitize-html": "^2.11.0",
+		"@types/turndown": "^5.0.5",
+		"tsx": "^4.19.1",
+		"typescript": "^5.6.2",
+		"@repo/biome-config": "*"
+	},
+	"dependencies": {
+		"@repo/db": "*",
+		"@repo/error": "*",
+		"@repo/logger": "*",
+		"@repo/types": "*",
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"http-status-codes": "^2.3.0",
+		"marked": "^13.0.3",
+		"sanitize-html": "^2.13.0",
+		"turndown": "^7.2.0",
+		"zod": "^3.23.8"
+	}
 }

@@ -1,5 +1,3 @@
-import { db } from "@repo/db"
+import { db } from "@repo/db";
 
-export {
-    db,
-}
+export { db };

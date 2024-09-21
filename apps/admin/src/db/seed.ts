@@ -1,28 +1,28 @@
 import problem from "../model/problem";
 import logger from "@repo/logger";
 
-export default async function seedProblemData(){
-    const p1 = {
-    title: "sum",
-    description:  "Add two given numbers.",
-    difficulty: "easy",
-    testCases: [
-        {
-            input: "5\n3",
-            output: "8",
-        },
-        {input: "0\n2", output: "2"}
-    ],
-    timeLimit: 1,
-    codestubs: [
-        {
-            language: "python",
-            userSnippet: `
+export default async function seedProblemData() {
+	const p1 = {
+		title: "sum",
+		description: "Add two given numbers.",
+		difficulty: "easy",
+		testCases: [
+			{
+				input: "5\n3",
+				output: "8",
+			},
+			{ input: "0\n2", output: "2" },
+		],
+		timeLimit: 1,
+		codestubs: [
+			{
+				language: "python",
+				userSnippet: `
 class Solution:
     def add(a, b):`,
-            startSnippet:`
+				startSnippet: `
 import sys`,
-            endSnippet:`
+				endSnippet: `
 class Main:
     def process_input():
         a = int(input())
@@ -36,17 +36,18 @@ class Main:
             except EOFError:
                 break
 Main.main()
-` },
-{
-    "language": "java",
-    "userSnippet": `
+`,
+			},
+			{
+				language: "java",
+				userSnippet: `
 class Solution {
     public static int add(int a, int b) {
     
     }
 }`,
-    "startSnippet": "import java.util.Scanner;",
-    "endSnippet": `
+				startSnippet: "import java.util.Scanner;",
+				endSnippet: `
 public class Main {
     public static void processInput(Scanner scanner) {
         int a = scanner.nextInt();
@@ -61,23 +62,23 @@ public class Main {
         }
         scanner.close();
     }
-}`}]
+}`,
+			},
+		],
+	};
+
+	const p2 = {
+		title: "modulo",
+		timeLimit: 2,
+		difficulty: "Hard",
+		description: "Given two numbers, returns modulo",
+	};
+
+	await problem.deleteMany();
+	await problem.createMany({
+		data: [p1, p2],
+	});
+	logger.info("seeded problem data.....");
 }
 
-const p2 = {
-    "title": "modulo",
-    "timeLimit":2,
-    "difficulty":"Hard",
-    "description": "Given two numbers, returns modulo"
-}
-
-    await problem.deleteMany();
-    await problem.createMany({
-        data: [
-            p1, p2
-        ]
-    });
-    logger.info("seeded problem data.....");
-}
-
-seedProblemData()
+seedProblemData();

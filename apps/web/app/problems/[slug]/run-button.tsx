@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import uniqid from "uniqid";
-import { Button } from "@/components/ui/button"
-import { PlayIcon } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { PlayIcon } from "lucide-react";
 import { useContext } from "react";
 import { UserSnippetContext } from "./UserSnippetContext";
 import { useSession } from "next-auth/react";
@@ -11,39 +11,48 @@ import axios from "axios";
 import { RunResponseContext } from "./RunResponseContext";
 import { LoadingSpinner } from "@/components/spinner";
 
-const Submission_Service_Api = "http://localhost:5003"
+const Submission_Service_Api = "http://localhost:5003";
 
 export const Run = () => {
+	const { userSnippetStatus } = useContext(UserSnippetContext);
+	const { isRunResponse, setIsRunResponse } = useContext(RunResponseContext);
+	const session: any = useSession();
 
-    const {userSnippetStatus} = useContext(UserSnippetContext);
-    const {isRunResponse, setIsRunResponse} = useContext(RunResponseContext);
-    const session:any = useSession();
+	const onRun = async () => {
+		setIsRunResponse(true);
+		let userId: string;
+		if (session.status === "authenticated") {
+			userId = session.data.user.id;
+		} else {
+			userId = uniqid();
+		}
+		console.log(userId);
 
-    const onRun = async () => {
-        setIsRunResponse(true);
-        let userId:string;
-        if(session.status === "authenticated"){
-            userId = session.data.user.id;
-        }else{
-            userId = uniqid();
-        }
-        console.log(userId);
-        
-        socket.emit("user_joined", userId)
+		socket.emit("user_joined", userId);
 
-        const response = await axios.post(`${Submission_Service_Api}/api/v1/run`, {
-            userId: userId,
-            problemId: userSnippetStatus.problemId,
-            code: userSnippetStatus.code,
-            language: userSnippetStatus.language
-        })
+		const response = await axios.post(`${Submission_Service_Api}/api/v1/run`, {
+			userId: userId,
+			problemId: userSnippetStatus.problemId,
+			code: userSnippetStatus.code,
+			language: userSnippetStatus.language,
+		});
 
-        console.log(response.data)
-    }
-    
-    return isRunResponse ?
-    <Button className="flex gap-2 text-sm" variant={"destructive"}><LoadingSpinner className="mx-2"/><span className="text-white">Pending...</span></Button>:
-    <Button className="px-6 flex gap-2 text-sm" variant={"destructive"} onClick={onRun}>
-    <PlayIcon size={15}/>Run</Button>
-}
+		console.log(response.data);
+	};
 
+	return isRunResponse ? (
+		<Button className="flex gap-2 text-sm" variant={"destructive"}>
+			<LoadingSpinner className="mx-2" />
+			<span className="text-white">Pending...</span>
+		</Button>
+	) : (
+		<Button
+			className="px-6 flex gap-2 text-sm"
+			variant={"destructive"}
+			onClick={onRun}
+		>
+			<PlayIcon size={15} />
+			Run
+		</Button>
+	);
+};

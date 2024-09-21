@@ -1,4 +1,3 @@
 export const Navbar = async () => {
-    return <>
-    </>
-}
+	return <></>;
+};

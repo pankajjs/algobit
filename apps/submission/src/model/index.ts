@@ -1,3 +1,3 @@
 import submission from "./submission";
 
-export {submission}
+export { submission };

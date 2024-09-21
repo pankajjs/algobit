@@ -10,14 +10,14 @@ import submissionJobHandler from "./job_handler";
 import docker from "./docker";
 
 export {
-    submissionJobHandler,
-    redisConnection,
-    createJobResponsePayload,
-    evaluateExecutionOutput,
-    parsedTestCases,
-    createDockerContainer,
-    getOutputStream,
-    pullDockerImage,
-    publishJob,
-    docker
-}
+	submissionJobHandler,
+	redisConnection,
+	createJobResponsePayload,
+	evaluateExecutionOutput,
+	parsedTestCases,
+	createDockerContainer,
+	getOutputStream,
+	pullDockerImage,
+	publishJob,
+	docker,
+};

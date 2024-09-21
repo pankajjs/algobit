@@ -1,0 +1,19 @@
+{
+	"name": "@repo/biome-config",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"license": "MIT",
+	"exports": {
+		"./biome": "./biome.json"
+	},
+	"scripts": {
+		"format:check": "biome format",
+		"lint:check": "biome lint",
+		"format": "biome format --write",
+    "lint": "biome lint --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.2"
+	}
+}

@@ -1,5 +1,3 @@
 import requestQueueWorker from "./worker";
 
-export {
-    requestQueueWorker
-}
+export { requestQueueWorker };

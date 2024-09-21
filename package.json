@@ -4,9 +4,11 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "db:generate": "turbo db:generate"
+    "db:generate": "turbo db:generate",
+    "format:check": "turbo format:check",
+    "format": "turbo format",
+    "lint:check": "turbo lint:check",
+    "lint": "biome lint --write"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

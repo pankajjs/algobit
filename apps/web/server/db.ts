@@ -1,3 +1,3 @@
 import { db } from "@repo/db";
 
-export {db}
+export { db };

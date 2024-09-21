@@ -1,5 +1,3 @@
 import ProblemService from "./problem_service";
 
-export {
-    ProblemService
-}
+export { ProblemService };
