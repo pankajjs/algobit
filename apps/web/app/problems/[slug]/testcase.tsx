@@ -23,13 +23,10 @@ export const Test = ({ testCases }: { testCases: any }) => {
 
 	useEffect(() => {
 		socket.on("run-response", handleRunResponse);
-
 		return () => {
 			socket.off("run-response", handleRunResponse);
 		};
 	}, [handleRunResponse]);
-
-	console.log(testResult);
 
 	return (
 		<div className="">

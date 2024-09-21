@@ -9,26 +9,23 @@ import { languages } from "@codemirror/language-data";
 import { ChevronDown } from "lucide-react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { UserSnippetContext } from "./UserSnippetContext";
+import {LANGUAGE_LIST, LANGUAGES} from "../../../constants"
 
 let extensions = [
 	markdown({ base: markdownLanguage, codeLanguages: languages }),
 ];
-const languageList = ["java", "python"];
 
 export function CodeMirrorEditor({ problem }: { problem: any }) {
-	const [language, setLanguage] = useState(languageList[0]);
+	const [language, setLanguage] = useState(LANGUAGE_LIST[0]);
 	const { userSnippetStatus, setUserSnippetStatus } =
 		useContext(UserSnippetContext);
 	const [showLanguageList, setShowLanguageList] = useState(false);
 
-	console.log(userSnippetStatus, language);
-
 	useEffect(() => {
 		const loadChosenlanguage = (language: string) => {
-			const languages = { python: "python", java: "java" };
-			if (language === languages.python) {
+			if (language === LANGUAGES.python) {
 				return langs.python();
-			} else if (language === languages.java) {
+			} else if (language === LANGUAGES.java) {
 				return langs.java();
 			}
 
@@ -37,7 +34,7 @@ export function CodeMirrorEditor({ problem }: { problem: any }) {
 
 		extensions = [loadChosenlanguage(language), ...extensions];
 		const languageCodeStub = problem.codestubs.find(
-			(stub: any, idx: number) => stub.language === language,
+			(stub: any, _idx: number) => stub.language === language,
 		);
 		setUserSnippetStatus({
 			...userSnippetStatus,
@@ -59,7 +56,7 @@ export function CodeMirrorEditor({ problem }: { problem: any }) {
 			</div>
 			{showLanguageList && (
 				<div className="min-h-11 p-1 m-1 absolute min-w-20 bg-gray-800 z-50 text-slate-200 border border-gray-600 rounded-md">
-					{languageList.map((lang: string, idx: number) => {
+					{LANGUAGE_LIST.map((lang: string, idx: number) => {
 						return (
 							<div
 								key={idx}

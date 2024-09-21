@@ -1,8 +1,7 @@
 import axios from "axios";
 import { notFound } from "next/navigation";
 import { AlgobitEditor } from "./algobit-editor";
-
-const ADMIN_SERVICE_API = "http://localhost:5000";
+import { ADMIN_SERVICE_API } from "@/constants";
 
 const getProblem = async (title: string) => {
 	const response = await axios.get(

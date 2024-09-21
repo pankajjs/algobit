@@ -9,8 +9,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { SubmissionResponseContext } from "./SubmissionResponseContext";
 import { LoadingSpinner } from "@/components/spinner";
-
-const Submission_Service_Api = "http://localhost:5003";
+import { Submission_Service_Api } from "@/constants";
 
 export const Submit = () => {
 	const { userSnippetStatus } = useContext(UserSnippetContext);
@@ -23,7 +22,7 @@ export const Submit = () => {
 		if (session.status === "authenticated") {
 			setIsSubmissionResponse(true);
 			socket.emit("user_joined", session.data.user.id);
-			const response = await axios.post(
+			await axios.post(
 				`${Submission_Service_Api}/api/v1/submissions/`,
 				{
 					userId: session.data.user.id,
@@ -32,15 +31,10 @@ export const Submit = () => {
 					language: userSnippetStatus.language,
 				},
 			);
-
-			console.log(response.data);
 		} else {
 			// TODO: toast message
-			console.log("User not logged in");
 			return;
 		}
-
-		console.log("user snippet", userSnippetStatus.code);
 	};
 
 	return isSubmissionResponse ? (

@@ -10,8 +10,8 @@ import { socket } from "@/socket";
 import axios from "axios";
 import { RunResponseContext } from "./RunResponseContext";
 import { LoadingSpinner } from "@/components/spinner";
+import { Submission_Service_Api } from "@/constants";
 
-const Submission_Service_Api = "http://localhost:5003";
 
 export const Run = () => {
 	const { userSnippetStatus } = useContext(UserSnippetContext);
@@ -21,23 +21,21 @@ export const Run = () => {
 	const onRun = async () => {
 		setIsRunResponse(true);
 		let userId: string;
+
 		if (session.status === "authenticated") {
 			userId = session.data.user.id;
 		} else {
 			userId = uniqid();
 		}
-		console.log(userId);
-
+		
 		socket.emit("user_joined", userId);
 
-		const response = await axios.post(`${Submission_Service_Api}/api/v1/run`, {
+		await axios.post(`${Submission_Service_Api}/api/v1/run`, {
 			userId: userId,
 			problemId: userSnippetStatus.problemId,
 			code: userSnippetStatus.code,
 			language: userSnippetStatus.language,
 		});
-
-		console.log(response.data);
 	};
 
 	return isRunResponse ? (

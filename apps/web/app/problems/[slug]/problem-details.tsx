@@ -7,8 +7,8 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Suspense, useCallback, useContext, useEffect, useState } from "react";
 import { SubmissionResponseContext } from "./SubmissionResponseContext";
-
-const Submission_Service_Api = "http://localhost:5003";
+import { Submission_Service_Api } from "@/constants";
+import getId from "@/utils/getId";
 
 const getUserSubmission = async (userId: string) => {
 	const response = await axios.get(
@@ -30,7 +30,6 @@ export const ProblemDetails = ({ problem }: { problem: any }) => {
 
 	const handleSubmissionResponse = useCallback((data: any) => {
 		setIsSubmissionResponse(false);
-		console.log(data);
 		setShowDescription(false);
 		setShowSubmissions(true);
 		setSubmissionList((prevList) => [data, ...prevList]);
@@ -51,7 +50,6 @@ export const ProblemDetails = ({ problem }: { problem: any }) => {
 		setShowSubmissions(true);
 		if (session.status === "authenticated") {
 			const submissions = await getUserSubmission(session.data.user.id);
-			console.log(submissions);
 			setSubmissionList(submissions);
 		}
 	}, [session]);
@@ -212,8 +210,4 @@ export const ProblemDetails = ({ problem }: { problem: any }) => {
 			</div>
 		</Suspense>
 	);
-};
-
-const getId = (id: string): string => {
-	return id.split("").slice(0, 3).join("");
 };
