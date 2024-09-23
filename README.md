@@ -60,7 +60,7 @@ Before running the microservices, ensure you have the following software install
 Each microservice requires its dependencies to be installed. Navigate to each microservice's directory and install the dependencies using npm:
 
 ```
-cd apps/admin && npm install
+yarn install
 ```
 
 ### Environment Variables
@@ -80,7 +80,7 @@ cp .env.sample .env
 ## Running the Services
 To run a microservice, navigate to its directory and start the service:
 ```
-cd apps/admin && npm run dev
+yarn dev
 ```
 # Demo
-For detailed instructions on testing the WebSocket connection and submission flow, refer to the [demo.md](demo.md) file.
+
