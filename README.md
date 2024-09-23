@@ -1,12 +1,15 @@
 # Algobit
 
 ## Table of Contents
+- [Demo](#demo)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Services](#running-the-services)
-- [Demo](#demo)
+
+## Demo
+https://github.com/user-attachments/assets/43a567a9-cbde-44c7-8931-40cd896e83c3
 
 ## Project Structure
 
@@ -57,8 +60,6 @@ Before running the microservices, ensure you have the following software install
     3. Docker: Recommended for containerizing and running the microservices and other dependencies consistently across different environments.
 
 ## Installation
-Each microservice requires its dependencies to be installed. Navigate to each microservice's directory and install the dependencies using npm:
-
 ```
 yarn install
 ```
@@ -67,7 +68,7 @@ yarn install
 Each microservice has its own .env file where environment-specific configurations, such as database connections and API keys, can be set.
 
 #### Setup Instruction
-Navigate to each microservice:
+Navigate to each microservice and shared package:
     
 ##### 1. copy the `.env.sample` file to `.env`
 
@@ -88,9 +89,6 @@ yarn db:seed
 ```
 
 ## Running the Services
-To run a microservice, navigate to its directory and start the service:
 ```
 yarn dev
 ```
-# Demo
-
