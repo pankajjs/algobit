@@ -77,6 +77,16 @@ cp .env.sample .env
 ##### 2. Open the .env file and replace the placeholder values with actual configuration settings as per your environment.
 ##### 3. Save the .env file. The service will now use these settings when running.
 
+## Generate Prisma client
+```
+yarn db:generate
+```
+
+## Seed data(optional)
+```
+yarn db:seed
+```
+
 ## Running the Services
 To run a microservice, navigate to its directory and start the service:
 ```

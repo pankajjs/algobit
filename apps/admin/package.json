@@ -11,7 +11,7 @@
 		"format:check": "biome format",
 		"lint:check": "biome lint",
 		"format": "biome format --write",
-    "lint": "biome lint --write"
+    	"lint": "biome lint --write"
 	},
 	"author": "",
 	"license": "ISC",
